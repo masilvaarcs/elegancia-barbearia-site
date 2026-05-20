@@ -1,91 +1,207 @@
-# Free Tailwind landing page template
+# Augustu's Barbearia Website
 
-![Simple TailwindCSS template preview](https://github.com/cruip/tailwind-landing-page-template/assets/2683512/f9a98fab-a1bc-4fb5-8572-4de0b6bd932a)
+Landing page oficial da Augustu's Barbearia, desenvolvida com foco em conversao, identidade premium e experiencia mobile-first.
 
-**Simple Light** is a free landing page template built on top of **TailwindCSS** and fully coded in **React** / **Next.js**. Simple light is designed to provide all the basic components a developer need to create a landing page for SaaS products, online services, and more.
+![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=nextdotjs)
+![React](https://img.shields.io/badge/React-19-149ECA?logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss)
+![Playwright](https://img.shields.io/badge/E2E-Playwright-45ba4b?logo=playwright)
+![Vitest](https://img.shields.io/badge/Unit-Vitest-6E9F18?logo=vitest)
 
-**UPDATE 2025-02-04** Added Tailwind v4 support!
+## Visao geral
 
-Use it for whatever you want, and be sure to reach us out on X if you build anything cool/useful with it.
-Created and maintained with ❤️ by [Cruip.com](https://cruip.com/).
+Este projeto transforma o template base em um site comercial real da barbearia, utilizando materiais publicos do cliente (logo, endereco, contato, galeria de cortes e QR code).
 
-_Version 1.3.3 built with Tailwind CSS and React + Vite is available [here](https://github.com/cruip/tailwind-landing-page-template/releases/tag/1.3.3)._
+Principais objetivos:
 
-## Live demo
+- reforcar a marca com visual premium (preto + dourado)
+- facilitar agendamento por WhatsApp e Instagram
+- manter navegacao clara em celular e desktop
+- preparar base para deploy em ambiente de producao
 
-Check the live demo here 👉️ [https://simple.cruip.com/](https://simple.cruip.com/)
+## Tecnologias utilizadas
 
-## Simple Pro
+- Next.js 15 (App Router)
+- React 19
+- TypeScript
+- Tailwind CSS v4
+- AOS (animacoes de entrada)
+- Playwright (testes E2E de navegacao)
+- Vitest (testes unitarios de dados)
 
-[![Simple Pro](https://github.com/cruip/tailwind-landing-page-template/assets/2683512/992be2ba-3de7-4838-be41-12e85686c193)](https://cruip.com/)
+## Dados de referencia e conteudo publico
 
-## Design files
+Os dados visuais e de marca sao sincronizados da pasta:
 
-If you need the design files, you can download them from Figma's Community 👉 https://bit.ly/3HOZMpf
+`../esquema-dados/dados`
 
-## Usage
+Arquivos utilizados:
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+- logo da marca
+- card de endereco e campanha
+- QR code do Instagram
+- galeria real de cortes
+- imagem principal do atendimento
 
-### Getting Started
+Todos os contatos exibidos no site sao dados publicos do negocio.
 
-First, run the development server:
+## Estrutura relevante
+
+```text
+augustus-template/
+├── app/
+│   ├── (default)/page.tsx          # Landing page principal
+│   ├── (auth)/signin/page.tsx      # Fluxo de agendamento
+│   ├── (auth)/signup/page.tsx      # Cadastro de fidelidade
+│   ├── (auth)/reset-password/page.tsx
+│   └── lib/augustus-data.ts        # Fonte unica de dados publicos
+├── components/ui/
+│   ├── header.tsx
+│   ├── footer.tsx
+│   └── logo.tsx
+├── public/images/augustus/          # Assets reais sincronizados
+├── scripts/sync-reference-data.ps1  # Script de sincronizacao dos dados
+├── tests/
+│   ├── unit/augustus-data.test.ts
+│   └── e2e/navigation.spec.ts
+├── playwright.config.ts
+└── vitest.config.ts
+```
+
+## Politica de versao Node.js
+
+- padrao recomendado: Node.js LTS 20.x
+- compativel: 18.x
+- evitar: 22.x (para reduzir incompatibilidades)
+
+Arquivos de apoio:
+
+- `.nvmrc`
+- `.node-version`
+
+## Como executar localmente
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+corepack enable
+corepack prepare pnpm@10.15.1 --activate
+pnpm install
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+`http://localhost:3000`
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## WhatsApp por ambiente (dev/prod)
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+O projeto seleciona automaticamente o numero do WhatsApp conforme ambiente:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- desenvolvimento (`pnpm dev`): usa `NEXT_PUBLIC_WHATSAPP_DEV_PHONE` se estiver definido
+- producao (build/deploy): usa `NEXT_PUBLIC_WHATSAPP_PROD_PHONE`
 
-### Learn More
+Arquivos de apoio:
 
-To learn more about Next.js, take a look at the following resources:
+- `.env.example` (modelo versionado)
+- `.env.development.local` (local, ignorado no git)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Para seu teste atual no aparelho, ja deixamos:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- `NEXT_PUBLIC_WHATSAPP_DEV_PHONE=+5551984228067`
 
-### Deploy on Vercel
+Quando for liberar para cliente em producao, configure no ambiente de deploy:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `NEXT_PUBLIC_WHATSAPP_PROD_PHONE=<numero_do_cliente_em_formato_internacional>`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Sincronizacao dos dados do cliente
 
-### Support notes
+Sempre que houver atualizacao na pasta de referencia, rode:
 
-This template has been developed with the App Router (`app`) and React Server Components. If you’re unfamiliar with these beta features, you can find more information about them on the Next.js beta documentation page. So, please note that any request dealing with React (e.g. extra features, customisations, et cetera) is to be considered out of the support scope.
+```bash
+pnpm sync:data
+```
 
-For more information about what support covers, please see our (FAQs)[https://cruip.com/faq/].
+Esse script atualiza automaticamente os assets em `public/images/augustus`.
 
-## Credits
+## Scripts disponiveis
 
-- [Nucleo](https://nucleoapp.com/)
+```bash
+pnpm dev                # ambiente de desenvolvimento
+pnpm build              # build de producao
+pnpm start              # sobe app em modo producao
+pnpm sync:data          # sincroniza assets da pasta de dados
+pnpm test:unit          # testes unitarios (Vitest)
+pnpm test:e2e           # testes E2E (Playwright)
+pnpm test:navigation    # foco na navegacao do site
+pnpm test               # fluxo completo: unit + build + e2e
+```
 
-## Terms and License
+## Testes e validacoes
 
-- Released under the [GPL](https://www.gnu.org/licenses/gpl-3.0.html).
-- Copyright 2024 [Cruip](https://cruip.com/).
-- Use it for personal and commercial projects, but please don’t republish, redistribute, or resell the template.
-- Attribution is not required, although it is really appreciated.
+O projeto contem testes para garantir estabilidade de navegacao e consistencia dos dados:
 
-## About Us
+- Unitarios (Vitest): valida dados obrigatorios da marca e estrutura de navegacao
+- E2E (Playwright): valida todas as rotas principais e CTAs em desktop e mobile
 
-We're an Italian developer/designer duo creating high-quality design/code resources for developers, makers, and startups.
+Cobertura funcional validada:
 
-## Stay in the loop
+- `/`
+- `/signin`
+- `/signup`
+- `/reset-password`
+- navegacao por ancoras (`#servicos`, `#galeria`, `#contato`)
 
-If you would like to know when we release new resources, you can follow [@pacovitiello](https://x.com/pacovitiello) and [@DavidePacilio](https://x.com/DavidePacilio) on X, or you can subscribe to our [newsletter](https://cruip.com/newsletter/).
+## Hospedagem recomendada
 
+### Opcao 1 (recomendada para trafego incerto): Cloudflare Pages
+
+- distribuicao global com edge network
+- boa relacao custo x escala no plano gratuito
+- integrado ao GitHub para deploy automatico por branch
+
+Configuracao pronta neste projeto (site estatico):
+
+- build command: `pnpm cf:pages:build`
+- output directory: `out`
+- arquivo de configuracao: `wrangler.toml`
+- guia detalhado: `docs/cloudflare-pages.md`
+
+### Opcao 2 (mais rapida): Vercel
+
+- deploy nativo para Next.js
+- SSL automatico
+- preview por branch
+
+### Opcao 3: Netlify
+
+- boa para frontend com pipeline simples
+- build e deploy automaticos por Git
+
+### Opcao 4: Railway
+
+- deploy com runtime Node em poucos passos
+- bom para evoluir para stack full (com backend futuro)
+
+### Opcao 5: VPS (Docker + Nginx)
+
+- maior controle de infraestrutura
+- recomendado quando quiser padronizar varios clientes em um servidor proprio
+
+## Seguranca e dados
+
+- nenhum segredo/senha foi incluido no projeto
+- o conteudo de contatos e endereco exibido e publico e autorizado para uso no site
+
+## Proximos passos sugeridos
+
+- integrar formulario com backend/CRM de agendamento
+- configurar analytics (GA4/Plausible)
+- adicionar SEO local com schema.org (LocalBusiness)
+- publicar primeira versao em ambiente de producao
+
+## VS Code: extensoes recomendadas para Cloudflare
+
+- `cloudflare.cloudflare-workers-bindings-extension`
+- `codiium.wrangler`
+
+As recomendacoes estao no workspace em `.vscode/extensions.json`.

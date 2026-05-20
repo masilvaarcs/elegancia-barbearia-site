@@ -9,8 +9,8 @@
 }
 
 @theme {
-  --font-inter: Inter, sans-serif;
-  --font-mono: Roboto Mono, monospace;
+  --font-inter: var(--font-body), sans-serif;
+  --font-mono: JetBrains Mono, monospace;
 
   --text-xs: 0.75rem;
   --text-xs--line-height: 1.5;
@@ -197,6 +197,25 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
+  :root {
+    --augustus-gold: #c6973a;
+    --augustus-gold-soft: #e2ba6c;
+    --augustus-surface: #101114;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading), serif;
+    letter-spacing: 0.02em;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--augustus-gold) 60%, transparent);
+    color: white;
+  }
+
   *,
   ::after,
   ::before,
