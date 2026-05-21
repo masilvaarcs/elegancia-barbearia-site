@@ -6,11 +6,11 @@ test.describe("site navigation", () => {
 
     await page.goto("/");
 
-    await expect(page.getByRole("heading", { name: /visual impecavel/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /visual impecável/i })).toBeVisible();
 
     await page.getByRole("link", { name: /agendar/i }).first().click();
     await expect(page).toHaveURL(/\/signin$/);
-    await expect(page.getByRole("heading", { name: /reserve seu horario/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: /reserve seu horário/i })).toBeVisible();
 
     await page.goto("/signup");
     await expect(page.getByRole("heading", { name: /cadastro de fidelidade/i })).toBeVisible();
@@ -21,7 +21,7 @@ test.describe("site navigation", () => {
     await page.goto("/");
     const desktopNav = page.locator("nav").first();
 
-    await desktopNav.getByRole("link", { name: "Servicos" }).click();
+    await desktopNav.getByRole("link", { name: "Serviços" }).click();
     await expect(page).toHaveURL(/#servicos$/);
 
     await desktopNav.getByRole("link", { name: "Galeria" }).click();

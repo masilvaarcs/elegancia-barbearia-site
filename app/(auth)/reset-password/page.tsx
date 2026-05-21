@@ -5,6 +5,7 @@ export const metadata = {
 
 import Link from "next/link";
 import { augustusData } from "@/app/lib/augustus-data";
+import { ReactivationForm } from "@/components/forms/reactivation-form";
 
 export default function ResetPassword() {
   return (
@@ -15,54 +16,24 @@ export default function ResetPassword() {
         </p>
         <h1 className="mt-3 text-4xl font-semibold text-white">Reabrir atendimento</h1>
         <p className="mt-3 text-sm text-zinc-300">
-          Informe seu contato e siga para o WhatsApp para concluir o atendimento rapidamente.
+          Informe e-mail e telefone, depois confirme em um clique no WhatsApp.
         </p>
       </div>
 
-      <form>
-        <div className="space-y-4">
-          <div>
-            <label className="mb-1 block text-sm font-medium text-zinc-300" htmlFor="email">
-              Email
-            </label>
-            <input
-              id="email"
-              className="form-input w-full border-white/20 bg-black/40 text-zinc-100"
-              type="email"
-              placeholder="voce@email.com"
-              required
-            />
-          </div>
-          <div>
-            <label className="mb-1 block text-sm font-medium text-zinc-300" htmlFor="phone">
-              WhatsApp
-            </label>
-            <input
-              id="phone"
-              className="form-input w-full border-white/20 bg-black/40 text-zinc-100"
-              type="tel"
-              placeholder="(51) 98131-1911"
-              required
-            />
-          </div>
-        </div>
-        <div className="mt-6">
-          <a href={augustusData.brand.whatsappUrl} target="_blank" rel="noreferrer" className="btn w-full bg-[var(--augustus-gold)] text-center text-black hover:bg-[var(--augustus-gold-soft)]">
-            Continuar no WhatsApp
-          </a>
-        </div>
-      </form>
+      <ReactivationForm />
 
       <div className="mt-6 rounded-xl border border-white/10 bg-black/25 p-4 text-sm text-zinc-300">
-        Endereco: {augustusData.brand.addressLine}
+        Endereço: {augustusData.brand.addressLine}
         <br />
         Instagram: {augustusData.brand.instagramHandle}
+        <br />
+        Dados digitados aqui não são gravados em banco no site. A conclusão acontece no WhatsApp.
       </div>
 
       <div className="mt-6 text-center text-sm text-zinc-300">
-        Preferir voltar para o inicio?{" "}
+        Preferir voltar para o início?{" "}
         <Link className="text-[var(--augustus-gold-soft)] underline hover:no-underline" href="/">
-          Ver pagina principal
+          Ver página principal
         </Link>
       </div>
     </div>

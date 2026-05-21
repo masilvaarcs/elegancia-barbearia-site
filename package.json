@@ -13,6 +13,8 @@
     "start": "next start",
     "lint": "next lint",
     "sync:data": "pwsh ./scripts/sync-reference-data.ps1",
+    "hero:variants": "pwsh ./scripts/generate-hero-variants.ps1",
+    "create:client": "node ./scripts/create-client-profile.mjs",
     "test:unit": "vitest run",
     "test:e2e": "playwright test",
     "test:navigation": "playwright test tests/e2e/navigation.spec.ts",

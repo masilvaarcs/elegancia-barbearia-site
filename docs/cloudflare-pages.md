@@ -1,6 +1,7 @@
 # Deploy no Cloudflare Pages
 
 Este projeto esta preparado para deploy via Cloudflare Pages como site estatico gerado pelo Next.js.
+Nao utiliza base de dados: o conteudo vem de arquivos de perfil em `app/lib/clients` e imagens em `public/images/<cliente>`.
 
 ## 1) Pre-requisitos
 
@@ -19,6 +20,9 @@ Este projeto esta preparado para deploy via Cloudflare Pages como site estatico 
 
 - `NODE_VERSION=20`
 - `NPM_CONFIG_UPDATE_NOTIFIER=false`
+- `NEXT_PUBLIC_CLIENT_ID=<id-do-cliente>`
+- `NEXT_PUBLIC_SITE_URL=https://dominio-do-cliente.com`
+- `NEXT_PUBLIC_WHATSAPP_PROD_PHONE=55...`
 
 ## 4) Scripts locais uteis
 
@@ -28,10 +32,12 @@ Este projeto esta preparado para deploy via Cloudflare Pages como site estatico 
 
 ## 5) Fluxo sugerido
 
+1. Rodar `pnpm create:client nome-do-cliente` (quando for novo cliente)
+1. Ajustar `app/lib/clients/nome-do-cliente.ts` e imagens em `public/images/nome-do-cliente`
 1. Rodar `pnpm test` localmente
-2. Commitar alteracoes
-3. Push para branch principal
-4. Cloudflare Pages gera preview e producao automaticamente
+1. Commitar alteracoes
+1. Push para branch principal
+1. Cloudflare Pages gera preview e producao automaticamente
 
 ## 6) Limites free tier
 

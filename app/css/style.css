@@ -200,7 +200,18 @@
   :root {
     --augustus-gold: #c6973a;
     --augustus-gold-soft: #e2ba6c;
+    --augustus-bg-base: #060606;
+    --augustus-bg-soft: #171920;
     --augustus-surface: #101114;
+    --augustus-surface-soft: #171920;
+    --augustus-glow-primary: rgba(198, 151, 58, 0.22);
+    --augustus-glow-secondary: rgba(226, 186, 108, 0.15);
+    --augustus-header-bg: rgba(10, 10, 10, 0.78);
+    --augustus-footer-bg: #060606;
+    --augustus-text: #f5f0e5;
+    --augustus-text-soft: #b8b6ae;
+    --augustus-text-muted: #b8b6ae;
+    --augustus-on-accent: #000000;
   }
 
   h1,
@@ -222,5 +233,64 @@
   ::backdrop,
   ::file-selector-button {
     border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+/* ── Galeria animada ─────────────────────────────────── */
+@keyframes gallery-breathe {
+  0%,
+  100% { transform: scale(1) rotate(0deg); }
+  45%  { transform: scale(1.018) rotate(0.35deg); }
+  75%  { transform: scale(0.993) rotate(-0.2deg); }
+}
+
+@keyframes scissors-wiggle {
+  0%, 60%, 100% { transform: rotate(0deg) scale(1); }
+  68%  { transform: rotate(16deg) scale(1.18); }
+  76%  { transform: rotate(-10deg) scale(1.10); }
+  84%  { transform: rotate(8deg) scale(1.06); }
+  92%  { transform: rotate(-3deg) scale(1.02); }
+}
+
+/* Thanos snap — saída: dissolve da direita para a esquerda */
+@keyframes thanos-snap-out {
+  0%   { opacity: 1;    filter: blur(0px);   transform: translateX(0)    rotate(0deg)   scaleY(1);    clip-path: inset(0%  0%  0%  0%  round 16px); }
+  10%  { opacity: 1;    filter: blur(0px);   transform: translateX(2px)  rotate(0.4deg);              clip-path: inset(0%  5%  0%  0%  round 15px); }
+  25%  { opacity: 0.85; filter: blur(0.6px); transform: translateX(6px)  rotate(1.5deg);              clip-path: inset(1%  18% 1%  0%  round 13px); }
+  42%  { opacity: 0.6;  filter: blur(1.8px); transform: translateX(13px) rotate(3.5deg) scaleY(0.97); clip-path: inset(3%  36% 3%  0%  round 10px); }
+  60%  { opacity: 0.3;  filter: blur(3.5px); transform: translateX(22px) rotate(6deg)   scaleY(0.93); clip-path: inset(6%  56% 6%  0%  round 7px);  }
+  80%  { opacity: 0.1;  filter: blur(5.5px); transform: translateX(34px) rotate(9deg)   scaleY(0.87); clip-path: inset(12% 74% 12% 0%  round 4px);  }
+  100% { opacity: 0;    filter: blur(8px);   transform: translateX(48px) rotate(13deg)  scaleY(0.79); clip-path: inset(20% 90% 20% 0%  round 2px);  }
+}
+
+/* Thanos snap — entrada: materializa da direita para o centro */
+@keyframes thanos-snap-in {
+  0%   { opacity: 0;    filter: blur(8px);   transform: translateX(-48px) rotate(-13deg) scaleY(0.79); clip-path: inset(20% 90% 20% 0%  round 2px);  }
+  22%  { opacity: 0.15; filter: blur(5.5px); transform: translateX(-30px) rotate(-8deg)  scaleY(0.87); clip-path: inset(10% 68% 10% 0%  round 5px);  }
+  44%  { opacity: 0.45; filter: blur(2.8px); transform: translateX(-16px) rotate(-4deg)  scaleY(0.93); clip-path: inset(4%  45% 4%  0%  round 9px);  }
+  65%  { opacity: 0.78; filter: blur(1px);   transform: translateX(-7px)  rotate(-1.5deg) scaleY(0.98); clip-path: inset(1%  18% 1%  0%  round 13px); }
+  85%  { opacity: 0.96; filter: blur(0.2px); transform: translateX(-2px)  rotate(-0.3deg);              clip-path: inset(0%  3%  0%  0%  round 15px); }
+  100% { opacity: 1;    filter: blur(0px);   transform: translateX(0)     rotate(0deg)    scaleY(1);    clip-path: inset(0%  0%  0%  0%  round 16px); }
+}
+
+/* Acessibilidade: motion reduzido → fade simples */
+@media (prefers-reduced-motion: reduce) {
+  @keyframes thanos-snap-out { 0% { opacity: 1; } 100% { opacity: 0; } }
+  @keyframes thanos-snap-in  { 0% { opacity: 0; } 100% { opacity: 1; } }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .gallery-card {
+    animation: gallery-breathe 7s ease-in-out infinite;
+  }
+  .scissors-icon {
+    opacity: 0.5;
+    animation: scissors-wiggle 6s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scissors-icon {
+    opacity: 0.35;
   }
 }

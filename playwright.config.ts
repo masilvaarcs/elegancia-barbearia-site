@@ -15,7 +15,7 @@ export default defineConfig({
     command: "pnpm build && pnpm start:out",
     url: "http://127.0.0.1:3000",
     reuseExistingServer: true,
-    timeout: 120_000,
+    timeout: 300_000,
   },
   projects: [
     {

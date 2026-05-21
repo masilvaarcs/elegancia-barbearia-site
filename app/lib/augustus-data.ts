@@ -1,16 +1,211 @@
-export type ServiceItem = {
-  title: string;
-  description: string;
-  duration: string;
-  highlight: string;
+import { cache } from "react";
+import { clientProfiles, getAvailableClientIds, resolveClientId } from "./clients";
+import type {
+  ActiveClientData,
+  ClientModulesAvailability,
+  ClientPlanInput,
+  ClientPlanLimits,
+  ClientPlanResolved,
+  ClientPlanTier,
+  ClientThemeSettingsInput,
+  ClientThemeSettingsResolved,
+  GalleryItem,
+  NavItem,
+  ServiceItem,
+} from "./client-types";
+
+export type { GalleryItem, ServiceItem };
+
+// Tabela de oferta padrao por plano. Ajuste aqui quando mudarem os pacotes comerciais.
+const PLAN_MODULE_DEFAULTS: Record<ClientPlanTier, ClientModulesAvailability> = {
+  basic: {
+    services: true,
+    gallery: true,
+    premiumConcierge: false,
+    contact: true,
+    bookingCta: false,
+    whatsappCta: false,
+  },
+  normal: {
+    services: true,
+    gallery: true,
+    premiumConcierge: false,
+    contact: true,
+    bookingCta: false,
+    whatsappCta: true,
+  },
+  premium: {
+    services: true,
+    gallery: true,
+    premiumConcierge: true,
+    contact: true,
+    bookingCta: true,
+    whatsappCta: true,
+  },
+  superPremium: {
+    services: true,
+    gallery: true,
+    premiumConcierge: true,
+    contact: true,
+    bookingCta: true,
+    whatsappCta: true,
+  },
 };
 
-export type GalleryItem = {
-  src: string;
-  alt: string;
+// Limites padrao por plano. Pode ser sobrescrito no perfil do cliente em `plan.limits`.
+const PLAN_LIMIT_DEFAULTS: Record<ClientPlanTier, ClientPlanLimits> = {
+  basic: {
+    galleryRealMaxItems: 3,
+  },
+  normal: {
+    galleryRealMaxItems: 6,
+  },
+  premium: {
+    galleryRealMaxItems: 10,
+  },
+  superPremium: {
+    galleryRealMaxItems: 14,
+  },
 };
 
-const defaultClientPhoneRaw = "5551981311911";
+const THEME_DEFAULTS: ClientThemeSettingsResolved = {
+  mode: "randomOnLoad",
+};
+
+const PLAN_TIER_SET: ReadonlySet<ClientPlanTier> = new Set([
+  "basic",
+  "normal",
+  "premium",
+  "superPremium",
+]);
+
+function asClientPlanTier(value: string | undefined): ClientPlanTier | undefined {
+  const normalized = (value ?? "").trim();
+
+  if (!normalized) {
+    return undefined;
+  }
+
+  if (PLAN_TIER_SET.has(normalized as ClientPlanTier)) {
+    return normalized as ClientPlanTier;
+  }
+
+  return undefined;
+}
+
+function asThemeMode(value: string | undefined): ClientThemeSettingsResolved["mode"] | undefined {
+  const normalized = (value ?? "").trim();
+
+  if (!normalized) {
+    return undefined;
+  }
+
+  if (normalized === "randomOnLoad" || normalized === "fixed") {
+    return normalized;
+  }
+
+  return undefined;
+}
+
+function sanitizeGalleryLimit(value: number | undefined) {
+  if (value == null) {
+    return undefined;
+  }
+
+  if (!Number.isFinite(value)) {
+    return undefined;
+  }
+
+  return Math.max(0, Math.floor(value));
+}
+
+function resolveClientPlan(planInput: ClientPlanInput | undefined): ClientPlanResolved {
+  // Fallback global: cliente sem configuracao de plano entra como Basic.
+  const tier = planInput?.tier ?? "basic";
+  const modules = {
+    ...PLAN_MODULE_DEFAULTS[tier],
+    ...(planInput?.modules ?? {}),
+  };
+  const limits = {
+    ...PLAN_LIMIT_DEFAULTS[tier],
+    ...(planInput?.limits ?? {}),
+    galleryRealMaxItems: sanitizeGalleryLimit(planInput?.limits?.galleryRealMaxItems ?? PLAN_LIMIT_DEFAULTS[tier].galleryRealMaxItems),
+  };
+
+  return {
+    tier,
+    modules,
+    limits,
+  };
+}
+
+function sanitizeThemeFixedIndex(value: number | undefined) {
+  if (value == null || !Number.isFinite(value)) {
+    return undefined;
+  }
+
+  return Math.max(0, Math.floor(value));
+}
+
+function resolveClientTheme(themeInput: ClientThemeSettingsInput | undefined): ClientThemeSettingsResolved {
+  return {
+    mode: themeInput?.mode ?? THEME_DEFAULTS.mode,
+    fixedVariantId: themeInput?.fixedVariantId,
+    fixedVariantIndex: sanitizeThemeFixedIndex(themeInput?.fixedVariantIndex),
+  };
+}
+
+function resolveDevPlanOverrideTier() {
+  // Seguranca comercial: em producao qualquer override de DEV e ignorado.
+  if (process.env.NODE_ENV !== "development") {
+    return undefined;
+  }
+
+  return asClientPlanTier(process.env.NEXT_PUBLIC_DEV_PLAN_TIER);
+}
+
+function resolveDevThemeOverride() {
+  // Seguranca comercial: em producao qualquer override de DEV e ignorado.
+  if (process.env.NODE_ENV !== "development") {
+    return undefined;
+  }
+
+  const mode = asThemeMode(process.env.NEXT_PUBLIC_DEV_THEME_MODE);
+  const fixedVariantId = (process.env.NEXT_PUBLIC_DEV_THEME_FIXED_VARIANT_ID ?? "").trim() || undefined;
+  const fixedVariantIndex = sanitizeThemeFixedIndex(
+    process.env.NEXT_PUBLIC_DEV_THEME_FIXED_VARIANT_INDEX
+      ? Number(process.env.NEXT_PUBLIC_DEV_THEME_FIXED_VARIANT_INDEX)
+      : undefined,
+  );
+
+  if (!mode && !fixedVariantId && fixedVariantIndex == null) {
+    return undefined;
+  }
+
+  return {
+    mode,
+    fixedVariantId,
+    fixedVariantIndex,
+  } satisfies ClientThemeSettingsInput;
+}
+
+function filterNavByPlan(nav: NavItem[], modules: ClientModulesAvailability) {
+  return nav.filter((item) => {
+    if (item.href.endsWith("#servicos")) {
+      return modules.services;
+    }
+
+    if (item.href.endsWith("#galeria")) {
+      return modules.gallery;
+    }
+
+    if (item.href.endsWith("#contato")) {
+      return modules.contact;
+    }
+
+    return true;
+  });
+}
 
 function sanitizePhoneRaw(value: string | undefined) {
   return (value ?? "").replace(/\D/g, "");
@@ -33,11 +228,11 @@ function formatPhoneDisplay(phoneRaw: string) {
   return `+${phoneRaw}`;
 }
 
-function getWhatsappPhoneRaw() {
+function getWhatsappPhoneRaw(defaultPhoneRaw: string) {
   const isProduction = process.env.NODE_ENV === "production";
   const devPhoneRaw = sanitizePhoneRaw(process.env.NEXT_PUBLIC_WHATSAPP_DEV_PHONE);
   const prodPhoneRaw = sanitizePhoneRaw(process.env.NEXT_PUBLIC_WHATSAPP_PROD_PHONE);
-  const fallbackProdPhoneRaw = prodPhoneRaw || defaultClientPhoneRaw;
+  const fallbackProdPhoneRaw = prodPhoneRaw || sanitizePhoneRaw(defaultPhoneRaw);
 
   if (isProduction) {
     return fallbackProdPhoneRaw;
@@ -50,95 +245,71 @@ function getWhatsappPhoneRaw() {
   return fallbackProdPhoneRaw;
 }
 
-const whatsappPhoneRaw = getWhatsappPhoneRaw();
+function buildActiveClientData(clientId: string, devCookieTier?: ClientPlanTier): ActiveClientData {
+  const profile = clientProfiles[clientId];
+  const whatsappPhoneRaw = getWhatsappPhoneRaw(profile.brand.defaultPhoneRaw);
+  // Cookie override (per-request, DEV only) tem prioridade sobre a variável de ambiente.
+  const devPlanTier = devCookieTier ?? resolveDevPlanOverrideTier();
+  const devThemeOverride = resolveDevThemeOverride();
 
-const whatsappBookingTemplate =
-  "Ola! Vim pelo site e quero agendar um corte.\n\nNome:\nTurno preferido (manha/tarde/noite):\nHorario preferido:\nData sugerida:\nServico desejado (premium/infantil/acabamento):\n\nSe tiver horario disponivel, pode confirmar por aqui?";
+  const effectivePlanInput: ClientPlanInput | undefined = devPlanTier
+    ? {
+      ...(profile.plan ?? {}),
+      tier: devPlanTier,
+    }
+    : profile.plan;
 
-export const augustusData = {
-  brand: {
-    name: "Augustu's Barbearia",
-    tagline: "Dedicacao e estilo a cada corte.",
-    instagramHandle: "@augustobarbeariaoficial",
-    instagramUrl: "https://www.instagram.com/augustobarbeariaoficial/",
-    secondaryInstagramHandle: "@espacooficial.patyeaugustus",
-    secondaryInstagramUrl: "https://www.instagram.com/espacooficial.patyeaugustus/",
-    phoneDisplay: formatPhoneDisplay(whatsappPhoneRaw),
-    phoneRaw: whatsappPhoneRaw,
-    whatsappUrl: `https://wa.me/${whatsappPhoneRaw}?text=${encodeURIComponent(whatsappBookingTemplate)}`,
-    addressLine: "Rua Lino Estacio dos Santos, 160 - Sala 2",
-    city: "Centro, Gravatai - RS",
-    mapsUrl:
-      "https://www.google.com/maps/search/?api=1&query=Rua+Lino+Estacio+dos+Santos,+160,+Gravatai,+RS",
-  },
-  palette: {
-    background: "#060606",
-    surface: "#101114",
-    surfaceSoft: "#171920",
-    accent: "#C6973A",
-    accentSoft: "#E2BA6C",
-    text: "#F5F0E5",
-    textSoft: "#B8B6AE",
-  },
-  hero: {
-    eyebrow: "Barbearia premium em Gravatai",
-    title: "Visual impecavel para quem quer chegar marcando presenca",
-    description:
-      "Cortes masculinos e infantis com acabamento detalhado, atendimento proximo e ambiente preparado para voce sair no melhor estilo.",
-    primaryCtaLabel: "Agendar no WhatsApp",
-    secondaryCtaLabel: "Ver Instagram",
-  },
-  services: [
-    {
-      title: "Corte Premium",
-      description:
-        "Corte personalizado com degradê limpo, alinhamento e finalizacao para o dia a dia ou evento.",
-      duration: "40 min",
-      highlight: "Mais pedido da semana",
+  const effectiveThemeInput: ClientThemeSettingsInput | undefined = devThemeOverride
+    ? {
+      ...(profile.theme ?? {}),
+      ...devThemeOverride,
+    }
+    : profile.theme;
+
+  const plan = resolveClientPlan(effectivePlanInput);
+  const theme = resolveClientTheme(effectiveThemeInput);
+
+  return {
+    clientId,
+    ...profile,
+    nav: filterNavByPlan(profile.nav, plan.modules),
+    plan,
+    theme,
+    brand: {
+      ...profile.brand,
+      phoneDisplay: formatPhoneDisplay(whatsappPhoneRaw),
+      phoneRaw: whatsappPhoneRaw,
+      whatsappUrl: `https://wa.me/${whatsappPhoneRaw}?text=${encodeURIComponent(profile.whatsappBookingTemplate)}`,
     },
-    {
-      title: "Corte Infantil",
-      description:
-        "Atendimento paciente e tecnico para criancas, com foco no conforto e no resultado.",
-      duration: "35 min",
-      highlight: "Especialidade da casa",
-    },
-    {
-      title: "Acabamento e Detalhes",
-      description:
-        "Refino rapido para manter o corte em dia, incluindo contorno, nuca e ajuste de laterais.",
-      duration: "20 min",
-      highlight: "Ideal entre cortes",
-    },
-  ] as ServiceItem[],
-  differentiators: [
-    "Atendimento direto com profissional experiente",
-    "Padrao visual premium com foco em acabamento",
-    "Espaco acolhedor para publico masculino e infantil",
-    "Facilidade para agendar por WhatsApp ou Instagram",
-  ],
-  workingHours: [
-    "Segunda a sexta: 09:00 as 19:00",
-    "Sabado: 09:00 as 18:00",
-    "Domingo: atendimento sob consulta",
-  ],
-  gallery: [
-    { src: "/images/augustus/gallery-01.jpeg", alt: "Corte infantil com degradê e topo texturizado" },
-    { src: "/images/augustus/gallery-02.jpeg", alt: "Corte infantil com volume e acabamento natural" },
-    { src: "/images/augustus/gallery-03.jpeg", alt: "Cliente e barbeiro em atendimento na barbearia" },
-    { src: "/images/augustus/gallery-04.jpeg", alt: "Corte infantil com degradê baixo e topo alinhado" },
-    { src: "/images/augustus/gallery-05.jpeg", alt: "Corte infantil classico com textura lateral" },
-  ] as GalleryItem[],
-  featuredImages: {
-    hero: "/images/augustus/hero-principal.jpg",
-    logoCard: "/images/augustus/brand-logo-card.jpeg",
-    addressCard: "/images/augustus/brand-address-card.jpeg",
-    qrCode: "/images/augustus/instagram-qrcode.jpeg",
-  },
-  nav: [
-    { label: "Inicio", href: "/#inicio" },
-    { label: "Servicos", href: "/#servicos" },
-    { label: "Galeria", href: "/#galeria" },
-    { label: "Contato", href: "/#contato" },
-  ],
-};
+  };
+}
+
+export const activeClientId = resolveClientId(process.env.NEXT_PUBLIC_CLIENT_ID);
+export const availableClientIds = getAvailableClientIds();
+export const activeClientData = buildActiveClientData(activeClientId);
+
+// Compatibility alias for static contexts (metadata, generateStaticParams).
+export const augustusData = activeClientData;
+
+// Lê o cookie de override de plano DEV (_dev_plan) de forma segura.
+// Usa dynamic import para evitar que next/headers marque rotas como dinâmicas em produção.
+async function readDevPlanCookieTier(): Promise<ClientPlanTier | undefined> {
+  if (process.env.NODE_ENV !== "development") return undefined;
+  try {
+    const { cookies } = await import("next/headers");
+    const store = await cookies();
+    return asClientPlanTier(store.get("_dev_plan")?.value);
+  } catch {
+    return undefined;
+  }
+}
+
+// Versão per-request com React.cache — usa cookie de override quando disponível.
+// Use esta função em Server Components para obter dados sempre atualizados em DEV.
+export const getAugustusData = cache(async (): Promise<ActiveClientData> => {
+  const cookieTier = await readDevPlanCookieTier();
+  return buildActiveClientData(activeClientId, cookieTier);
+});
+
+// Exported for unit testing — allows verifying plan resolution logic for any tier.
+export { resolveClientPlan };

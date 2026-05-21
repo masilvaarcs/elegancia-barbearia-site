@@ -1,10 +1,22 @@
 import Link from "next/link";
 import Logo from "./logo";
-import { augustusData } from "@/app/lib/augustus-data";
+import { getAugustusData } from "@/app/lib/augustus-data";
+import { APP_VERSION } from "@/app/lib/version";
 
-export default function Footer({ border = false }: { border?: boolean }) {
+const PLAN_LABELS: Record<string, string> = {
+  basic: "Basic",
+  normal: "Normal",
+  premium: "Premium",
+  superPremium: "Super Premium",
+};
+
+export default async function Footer({ border = false }: { border?: boolean }) {
+  const augustusData = await getAugustusData();
+  const enabledModules = augustusData.plan.modules;
+  const planLabel = PLAN_LABELS[augustusData.plan.tier] ?? augustusData.plan.tier;
+
   return (
-    <footer className="bg-black">
+    <footer className="bg-[var(--augustus-footer-bg)]">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div
           className={`grid gap-10 py-10 sm:grid-cols-12 md:py-14 ${border ? "border-t border-white/10" : ""}`}
@@ -13,22 +25,25 @@ export default function Footer({ border = false }: { border?: boolean }) {
             <div>
               <Logo />
             </div>
-            <p className="max-w-md text-sm text-zinc-300">
+            <p className="max-w-md text-sm text-[var(--augustus-text-soft)]">
               {augustusData.hero.description}
             </p>
-            <div className="text-sm text-zinc-400">
+            <div className="text-sm text-[var(--augustus-text-muted)]">
               © {new Date().getFullYear()} {augustusData.brand.name}. Todos os direitos reservados.
+            </div>
+            <div className="text-xs text-[var(--augustus-text-muted)] opacity-40">
+              Plano: {planLabel} · v{APP_VERSION}
             </div>
           </div>
 
           <div className="space-y-2 sm:col-span-6 md:col-span-4 lg:col-span-3">
             <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--augustus-gold-soft)]">
-              Navegacao
+              Navegação
             </h3>
             <ul className="space-y-2 text-sm">
               {augustusData.nav.map((item) => (
                 <li key={item.href}>
-                  <Link className="text-zinc-300 transition hover:text-white" href={item.href}>
+                  <Link className="text-[var(--augustus-text-soft)] transition hover:text-white" href={item.href}>
                     {item.label}
                   </Link>
                 </li>
@@ -40,12 +55,14 @@ export default function Footer({ border = false }: { border?: boolean }) {
             <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--augustus-gold-soft)]">
               Contato
             </h3>
-            <ul className="space-y-3 text-sm text-zinc-300">
-              <li>
-                <a className="transition hover:text-white" href={augustusData.brand.whatsappUrl} target="_blank" rel="noreferrer">
-                  WhatsApp: {augustusData.brand.phoneDisplay}
-                </a>
-              </li>
+            <ul className="space-y-3 text-sm text-[var(--augustus-text-soft)]">
+              {enabledModules.whatsappCta ? (
+                <li>
+                  <a className="transition hover:text-white" href={augustusData.brand.whatsappUrl} target="_blank" rel="noreferrer">
+                    WhatsApp: {augustusData.brand.phoneDisplay}
+                  </a>
+                </li>
+              ) : null}
               <li>
                 <a className="transition hover:text-white" href={augustusData.brand.instagramUrl} target="_blank" rel="noreferrer">
                   Instagram: {augustusData.brand.instagramHandle}

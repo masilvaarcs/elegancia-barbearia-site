@@ -1,10 +1,10 @@
 export const metadata = {
   title: "Cadastro",
-  description: "Cadastro rapido para campanhas e avisos da Augustu's Barbearia.",
+  description: "Cadastro rápido via WhatsApp para benefícios da Augustu's Barbearia.",
 };
 
 import Link from "next/link";
-import { augustusData } from "@/app/lib/augustus-data";
+import { LoyaltyForm } from "@/components/forms/loyalty-form";
 
 export default function SignUp() {
   return (
@@ -15,64 +15,22 @@ export default function SignUp() {
         </p>
         <h1 className="mt-3 text-4xl font-semibold text-white">Cadastro de fidelidade</h1>
         <p className="mt-3 text-sm text-zinc-300">
-          Receba novidades, campanhas como "Complete e ganhe um corte" e horarios especiais.
+          Preencha em poucos passos e finalize no WhatsApp para entrar no Clube Augustus.
         </p>
       </div>
 
-      <form className="space-y-4">
-        <div className="space-y-4">
-          <div>
-            <label className="mb-1 block text-sm font-medium text-zinc-300" htmlFor="name">Nome completo</label>
-            <input
-              id="name"
-              className="form-input w-full border-white/20 bg-black/40 text-zinc-100"
-              type="text"
-              placeholder="Seu nome"
-              required
-            />
-          </div>
-          <div>
-            <label className="mb-1 block text-sm font-medium text-zinc-300" htmlFor="email">Email</label>
-            <input
-              id="email"
-              className="form-input w-full border-white/20 bg-black/40 text-zinc-100"
-              type="email"
-              placeholder="voce@email.com"
-              required
-            />
-          </div>
-          <div>
-            <label className="mb-1 block text-sm font-medium text-zinc-300" htmlFor="phone">Telefone</label>
-            <input
-              id="phone"
-              className="form-input w-full border-white/20 bg-black/40 text-zinc-100"
-              type="text"
-              placeholder="(51) 98131-1911"
-              required
-            />
-          </div>
-          <div>
-            <label className="mb-1 block text-sm font-medium text-zinc-300" htmlFor="instagram">Instagram (opcional)</label>
-            <input
-              id="instagram"
-              className="form-input w-full border-white/20 bg-black/40 text-zinc-100"
-              type="text"
-              placeholder="@seuusuario"
-            />
-          </div>
-        </div>
-        <div className="mt-6 space-y-3">
-          <button className="btn w-full bg-[var(--augustus-gold)] text-black hover:bg-[var(--augustus-gold-soft)]">
-            Enviar cadastro
-          </button>
-          <a href={augustusData.brand.whatsappUrl} target="_blank" rel="noreferrer" className="btn w-full border border-[var(--augustus-gold)]/40 bg-transparent text-center text-zinc-100 shadow-none hover:bg-[var(--augustus-gold)]/15">
-            Finalizar via WhatsApp
-          </a>
-        </div>
-      </form>
+      <div className="mb-4 rounded-xl border border-white/10 bg-black/20 p-3 text-xs text-zinc-300">
+        O site prepara seus dados e abre o WhatsApp para validação final com a equipe.
+      </div>
+
+      <LoyaltyForm />
+
+      <p className="mt-4 text-xs text-zinc-400">
+        Neste fluxo, os dados não são persistidos automaticamente no site. O cadastro é concluído na conversa do WhatsApp.
+      </p>
 
       <div className="mt-6 text-center text-sm text-zinc-300">
-        Ja tem contato salvo?{" "}
+        Já tem contato salvo?{" "}
         <Link className="text-[var(--augustus-gold-soft)] underline hover:no-underline" href="/signin">
           Voltar para agendamento
         </Link>

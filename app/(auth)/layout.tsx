@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Logo from "@/components/ui/logo";
 import { augustusData } from "@/app/lib/augustus-data";
+import RandomHeroImage from "@/components/random-hero-image";
 
 export default function AuthLayout({
   children,
@@ -19,7 +19,7 @@ export default function AuthLayout({
         </div>
       </header>
 
-      <main className="relative flex grow bg-[#070708]">
+      <main className="relative flex grow bg-[var(--augustus-bg-base)]">
         <div
           className="pointer-events-none absolute bottom-0 left-0 -translate-x-1/3"
           aria-hidden="true"
@@ -38,26 +38,26 @@ export default function AuthLayout({
         </div>
 
         <div className="relative my-6 mr-6 hidden w-[560px] shrink-0 overflow-hidden rounded-2xl border border-[var(--augustus-gold)]/20 lg:block">
-          <Image
-            src={augustusData.featuredImages.hero}
+          <RandomHeroImage
+            fallbackSrc={augustusData.featuredImages.hero}
             className="h-full w-full object-cover"
             width={640}
             height={640}
             alt="Ambiente da Augustu's Barbearia"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+          <div className="absolute inset-0 bg-[linear-gradient(to_top,var(--augustus-bg-base),color-mix(in_oklab,var(--augustus-bg-base)_45%,transparent),transparent)]"></div>
           <div className="absolute inset-x-0 bottom-0 p-8">
             <h2 className="text-3xl font-semibold text-[var(--augustus-gold-soft)]">
               {augustusData.brand.name}
             </h2>
-            <p className="mt-2 text-zinc-100">{augustusData.brand.tagline}</p>
-            <p className="mt-5 text-sm text-zinc-300">
+            <p className="mt-2 text-[var(--augustus-text)]">{augustusData.brand.tagline}</p>
+            <p className="mt-5 text-sm text-[var(--augustus-text-soft)]">
               {augustusData.brand.addressLine}
               <br />
               {augustusData.brand.city}
             </p>
-            <p className="mt-3 text-sm text-zinc-300">
+            <p className="mt-3 text-sm text-[var(--augustus-text-soft)]">
               WhatsApp: {augustusData.brand.phoneDisplay}
             </p>
           </div>
