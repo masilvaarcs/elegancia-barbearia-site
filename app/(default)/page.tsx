@@ -9,6 +9,7 @@ import { getAugustusData } from "@/app/lib/augustus-data";
 import PremiumBookingConcierge from "@/components/premium-booking-concierge";
 import RandomHeroImage from "@/components/random-hero-image";
 import AnimatedGallery from "@/components/animated-gallery";
+import PhoneCopyCard from "@/components/phone-copy-card";
 
 export default async function Home() {
   const augustusData = await getAugustusData();
@@ -218,6 +219,13 @@ export default async function Home() {
             </p>
 
             <div className="mt-6 space-y-3 text-sm">
+              {/* Telefone com copiar — sempre visível */}
+              <PhoneCopyCard
+                phoneDisplay={augustusData.brand.phoneDisplay}
+                whatsappUrl={augustusData.brand.whatsappUrl}
+                showWhatsappButton={hasWhatsappCta}
+              />
+
               {hasWhatsappCta ? (
                 <a
                   href={augustusData.brand.whatsappUrl}
