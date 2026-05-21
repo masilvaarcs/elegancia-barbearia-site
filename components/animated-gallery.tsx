@@ -52,7 +52,7 @@ const INTERVAL_MS  = 5500;
 const BREATHE_DELAYS  = ["0s", "1.2s", "2.4s"] as const;
 const SCISSORS_DELAYS = ["0.5s", "2.0s", "3.5s"] as const;
 
-export default function AnimatedGallery({ items }: { items: GalleryItem[] }) {
+export default function AnimatedGallery({ items, animated = true }: { items: GalleryItem[]; animated?: boolean }) {
   const [visible, setVisibleState] = useState<GalleryItem[]>(() => items.slice(0, 3));
   const [phases, setPhases]        = useState<CardPhase[]>(["idle", "idle", "idle"]);
 
@@ -78,7 +78,7 @@ export default function AnimatedGallery({ items }: { items: GalleryItem[] }) {
   };
 
   useEffect(() => {
-    if (items.length <= 3) return;
+    if (!animated || items.length <= 3) return;
 
     const rotate = () => {
       const next3 = pickRandom3(items, visibleRef.current);

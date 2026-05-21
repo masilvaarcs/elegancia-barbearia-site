@@ -197,7 +197,7 @@ export default async function Home() {
           </p>
           <h2 className="mt-3 text-3xl text-white md:text-4xl">Resultados reais da barbearia</h2>
 
-          <AnimatedGallery items={augustusData.gallery} />
+          <AnimatedGallery items={augustusData.gallery} animated={augustusData.galleryAnimation ?? true} />
         </div>
         </section>
       ) : null}

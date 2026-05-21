@@ -20,6 +20,9 @@ export const augustusProfileInput: ClientProfileInput = {
   // Plano comercial deste cliente.
   // Troque entre: "basic" | "normal" | "premium" | "superPremium".
   // Se quiser ajustar algum modulo ou limite sem mudar tier, use `modules` e `limits`.
+  // Define se a galeria usa o rodízio animado (efeito Thanos snap).
+  // false = fotos estáticas, sem troca automática.
+  galleryAnimation: true,
   plan: {
     tier: "basic",
     // Exemplo de override:

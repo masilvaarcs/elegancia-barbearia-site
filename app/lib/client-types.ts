@@ -112,6 +112,11 @@ export type ClientProfileInput = {
     qrCode: string;
   };
   nav: NavItem[];
+  /**
+   * Habilita o rodízio animado da galeria (efeito Thanos snap).
+   * `true` por padrão — defina `false` para exibir as fotos estáticas.
+   */
+  galleryAnimation?: boolean;
   // Controles de tema por cliente:
   // - randomOnLoad: muda cor/variante a cada carregamento
   // - fixed: fixa uma variante por id ou indice
