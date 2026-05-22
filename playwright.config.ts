@@ -16,6 +16,11 @@ export default defineConfig({
     url: "http://127.0.0.1:3000",
     reuseExistingServer: true,
     timeout: 300_000,
+    env: {
+      // Garante que o build de teste sobe com superPremium habilitado,
+      // sem alterar o plano do cliente (augustus.ts) nem o build de producao.
+      NEXT_PUBLIC_E2E_PLAN_TIER: "superPremium",
+    },
   },
   projects: [
     {

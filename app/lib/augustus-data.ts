@@ -156,6 +156,11 @@ function resolveClientTheme(themeInput: ClientThemeSettingsInput | undefined): C
 }
 
 function resolveDevPlanOverrideTier() {
+  // Override exclusivo para testes E2E (injetado via playwright.config webServer.env).
+  // Funciona em builds de producao para que o site de testes rode com plano completo.
+  const e2eTier = asClientPlanTier(process.env.NEXT_PUBLIC_E2E_PLAN_TIER);
+  if (e2eTier) return e2eTier;
+
   // Seguranca comercial: em producao qualquer override de DEV e ignorado.
   if (process.env.NODE_ENV !== "development") {
     return undefined;
