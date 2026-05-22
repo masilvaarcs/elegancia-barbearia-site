@@ -13,17 +13,14 @@ export async function GET(request: NextRequest) {
   }
 
   const tier = request.nextUrl.searchParams.get("tier") ?? "";
-
-  // Dynamic import evita análise estática pelo next build com output:'export'.
-  const { cookies } = await import("next/headers");
-  const cookieStore = await cookies();
+  const redirectTo = request.nextUrl.searchParams.get("to") ?? "/";
+  const response = NextResponse.redirect(new URL(redirectTo, request.url));
 
   if (tier && VALID_TIERS.has(tier)) {
-    cookieStore.set("_dev_plan", tier, { path: "/", httpOnly: false, sameSite: "lax" });
+    response.cookies.set("_dev_plan", tier, { path: "/", httpOnly: false, sameSite: "lax" });
   } else {
-    cookieStore.delete("_dev_plan");
+    response.cookies.delete("_dev_plan");
   }
 
-  const redirectTo = request.nextUrl.searchParams.get("to") ?? "/";
-  return NextResponse.redirect(new URL(redirectTo, request.url));
+  return response;
 }
