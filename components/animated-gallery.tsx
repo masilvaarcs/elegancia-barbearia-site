@@ -121,7 +121,7 @@ export default function AnimatedGallery({ items, animated = true }: { items: Gal
   }, [items]); // items é estável — o effect roda uma vez
 
   return (
-    <div className="mt-8 grid grid-cols-3 gap-3">
+    <div data-testid="gallery-grid" className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
       {visible.map((item, i) => {
         const phase      = phases[i];
         const isSnapping = phase !== "idle";
@@ -152,7 +152,7 @@ export default function AnimatedGallery({ items, animated = true }: { items: Gal
               alt={item.alt}
               width={500}
               height={900}
-              className="h-52 w-full object-cover transition duration-500 hover:scale-105 sm:h-64 md:h-80"
+              className="aspect-[4/5] h-auto w-full bg-[var(--augustus-bg-soft)] object-contain transition duration-500 hover:scale-105 sm:aspect-[3/4]"
             />
           </figure>
         );

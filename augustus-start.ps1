@@ -13,11 +13,19 @@
 .PARAMETER Port
     Porta do servidor. Padrao: 3002
 
+.PARAMETER Tier
+    Plano de desenvolvimento: basic | normal | premium | superPremium.
+    Atualiza NEXT_PUBLIC_DEV_PLAN_TIER em .env.development.local antes de iniciar.
+    Requer restart (o valor e lido na inicializacao do servidor, nao por request).
+
 .EXAMPLE
     .\augustus-start.ps1
     .\augustus-start.ps1 -Mode dev -Port 3003
+    .\augustus-start.ps1 -Mode dev -Tier premium
     .\augustus-start.ps1 -Mode build
     .\augustus-start.ps1 -Mode preview
+    .\augustus-start-basic.ps1
+    .\augustus-start-superPremium.ps1
 #>
 
 [CmdletBinding()]
@@ -25,7 +33,10 @@ param(
     [ValidateSet("dev", "build", "preview")]
     [string]$Mode = "dev",
 
-    [int]$Port = 3002
+    [int]$Port = 3002,
+
+    [ValidateSet("basic", "normal", "premium", "superPremium", "")]
+    [string]$Tier = ""
 )
 
 # ---------------------------------------------------------------------------
@@ -83,6 +94,9 @@ Write-Host "  Dir   : $ScriptDir" -ForegroundColor White
 if ($Mode -ne "build") {
     Write-Host "  Porta : $Port" -ForegroundColor White
 }
+if ($Tier -and $Mode -eq "dev") {
+    Write-Host "  Plano : $Tier" -ForegroundColor Magenta
+}
 Write-Host ""
 
 # ---------------------------------------------------------------------------
@@ -100,14 +114,32 @@ if ($Mode -eq "dev") {
     Write-Step "Parando processo na porta $Port (se houver) ..."
     Stop-PortProcess -P $Port
 
+    # ---------------------------------------------------------------------------
+    # Atualizar tier no .env.development.local (requer restart para ter efeito)
+    # NEXT_PUBLIC_DEV_PLAN_TIER e lido na inicializacao do servidor, nao por request.
+    # A rota /api/dev/set-plan (cookie) nao funciona com output:'export' + force-static.
+    # ---------------------------------------------------------------------------
+    if ($Tier) {
+        $envFile = Join-Path $ScriptDir ".env.development.local"
+        if (Test-Path $envFile) {
+            (Get-Content $envFile) | ForEach-Object {
+                $_ -replace '^NEXT_PUBLIC_DEV_PLAN_TIER=.*', "NEXT_PUBLIC_DEV_PLAN_TIER=$Tier"
+            } | Set-Content $envFile
+            Write-Ok "Plano definido: NEXT_PUBLIC_DEV_PLAN_TIER=$Tier"
+        } else {
+            Write-Warn ".env.development.local nao encontrado — tier '$Tier' nao aplicado."
+        }
+    }
+
     Write-Step "Iniciando servidor de desenvolvimento (Turbopack) na porta $Port ..."
     Write-Host "  → http://localhost:$Port" -ForegroundColor Yellow
     Write-Host ""
-    Write-Host "  Troca de plano sem restart:" -ForegroundColor DarkGray
-    Write-Host "  http://localhost:$Port/api/dev/set-plan?tier=normal" -ForegroundColor DarkGray
-    Write-Host "  http://localhost:$Port/api/dev/set-plan?tier=premium" -ForegroundColor DarkGray
-    Write-Host "  http://localhost:$Port/api/dev/set-plan?tier=superPremium" -ForegroundColor DarkGray
-    Write-Host "  http://localhost:$Port/api/dev/set-plan?tier=basic" -ForegroundColor DarkGray
+    Write-Host "  Trocar tier (requer restart — use os scripts dedicados ou -Tier):" -ForegroundColor DarkGray
+    Write-Host "  .\augustus-start-basic.ps1" -ForegroundColor DarkGray
+    Write-Host "  .\augustus-start-normal.ps1" -ForegroundColor DarkGray
+    Write-Host "  .\augustus-start-premium.ps1" -ForegroundColor DarkGray
+    Write-Host "  .\augustus-start-superPremium.ps1" -ForegroundColor DarkGray
+    Write-Host "  Ou: .\augustus-start.ps1 -Tier premium" -ForegroundColor DarkGray
     Write-Host ""
 
     pnpm exec next dev --turbopack --port $Port

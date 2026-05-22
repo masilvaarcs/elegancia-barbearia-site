@@ -57,7 +57,7 @@ export default function AuthLayout({
               <br />
               {augustusData.brand.city}
             </p>
-            <p className="mt-3 text-sm text-[var(--augustus-text-soft)]">
+            <p className="mt-3 whitespace-nowrap text-sm text-[var(--augustus-text-soft)]">
               WhatsApp: {augustusData.brand.phoneDisplay}
             </p>
           </div>

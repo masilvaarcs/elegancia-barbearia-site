@@ -24,7 +24,7 @@ export default function PhoneCopyCard({ phoneDisplay, whatsappUrl, showWhatsappB
   };
 
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-[#25d366]/25 bg-gradient-to-br from-[#25d366]/12 via-[var(--augustus-surface)] to-[var(--augustus-surface)] p-5">
+    <div data-testid="phone-copy-card" className="relative overflow-hidden rounded-2xl border border-[#25d366]/25 bg-gradient-to-br from-[#25d366]/12 via-[var(--augustus-surface)] to-[var(--augustus-surface)] p-4 sm:p-5">
       {/* Brilho sutil no canto superior */}
       <div
         className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full opacity-20"
@@ -33,7 +33,7 @@ export default function PhoneCopyCard({ phoneDisplay, whatsappUrl, showWhatsappB
       />
 
       {/* Cabeçalho */}
-      <div className="mb-3 flex items-center gap-2">
+      <div className="mb-3 flex flex-wrap items-center gap-2">
         {/* Ícone WhatsApp */}
         <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#25d366]/20">
           <svg className="h-4 w-4 text-[#25d366]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -41,11 +41,11 @@ export default function PhoneCopyCard({ phoneDisplay, whatsappUrl, showWhatsappB
             <path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.549 4.103 1.508 5.83L.057 23.082a.75.75 0 0 0 .921.921l5.255-1.451A11.943 11.943 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.667-.518-5.188-1.42l-.371-.22-3.844 1.061 1.024-3.741-.241-.386A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
           </svg>
         </span>
-        <span className="text-xs font-medium uppercase tracking-widest text-[#25d366]/80">
+        <span className="min-w-0 flex-1 text-xs font-medium uppercase tracking-[0.2em] text-[#25d366]/80">
           Augustu&apos;s Barbearia
         </span>
         {/* Indicador online */}
-        <span className="ml-auto flex items-center gap-1.5 text-xs text-[#25d366]/70">
+        <span className="flex w-full items-center gap-1.5 text-xs text-[#25d366]/70 sm:ml-auto sm:w-auto">
           <span className="relative flex h-2 w-2">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#25d366] opacity-60" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-[#25d366]" />
@@ -55,8 +55,8 @@ export default function PhoneCopyCard({ phoneDisplay, whatsappUrl, showWhatsappB
       </div>
 
       {/* Número em destaque */}
-      <div className="flex items-center gap-3">
-        <p className="flex-1 font-mono text-2xl font-bold tracking-wide text-white sm:text-3xl">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+        <p data-testid="phone-copy-number" className="min-w-0 font-mono text-[clamp(1rem,5vw,2.25rem)] font-bold leading-[1.1] tracking-[0.04em] text-white whitespace-nowrap sm:flex-1">
           {fullNumber}
         </p>
 
@@ -65,7 +65,7 @@ export default function PhoneCopyCard({ phoneDisplay, whatsappUrl, showWhatsappB
           onClick={handleCopy}
           aria-label={copied ? "Número copiado!" : "Copiar número"}
           className={[
-            "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border transition-all duration-200",
+            "flex h-10 w-full shrink-0 items-center justify-center gap-2 rounded-xl border text-xs font-semibold uppercase tracking-[0.16em] transition-all duration-200 sm:w-10 sm:gap-0 sm:text-[0px]",
             copied
               ? "border-[#25d366]/60 bg-[#25d366]/20 text-[#25d366]"
               : "border-white/10 bg-white/5 text-[var(--augustus-text-soft)] hover:border-[#25d366]/40 hover:bg-[#25d366]/10 hover:text-[#25d366]",
@@ -83,6 +83,7 @@ export default function PhoneCopyCard({ phoneDisplay, whatsappUrl, showWhatsappB
               <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
             </svg>
           )}
+          <span className="sm:hidden">{copied ? "Copiado" : "Copiar"}</span>
         </button>
       </div>
 

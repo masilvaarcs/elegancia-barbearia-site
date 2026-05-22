@@ -18,7 +18,7 @@ export default async function Home() {
 
   return (
     <div className="bg-[var(--augustus-bg-base)] text-[var(--augustus-text)]" id="inicio">
-      <section className="relative overflow-hidden border-b border-white/10 pb-16 pt-28 md:pt-36">
+      <section data-testid="hero-section" className="relative overflow-hidden border-b border-white/10 pb-10 pt-10 sm:pt-14 md:pb-12 md:pt-20">
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_20%_15%,var(--augustus-glow-primary),transparent_40%),radial-gradient(circle_at_75%_0%,var(--augustus-glow-secondary),transparent_42%),linear-gradient(180deg,var(--augustus-bg-soft)_0%,var(--augustus-bg-base)_100%)]"></div>
 
         <div className="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:items-center">
@@ -59,7 +59,7 @@ export default async function Home() {
 
             <div className={`mt-8 grid gap-3 text-sm text-[var(--augustus-text)] ${hasWhatsappCta ? "sm:grid-cols-2" : "sm:grid-cols-1"}`}>
               {hasWhatsappCta ? (
-                <a href={augustusData.brand.whatsappUrl} target="_blank" rel="noreferrer" className="rounded-xl border border-white/10 bg-[var(--augustus-surface)] px-4 py-3 transition hover:border-[var(--augustus-gold)]/40">
+                <a href={augustusData.brand.whatsappUrl} target="_blank" rel="noreferrer" className="rounded-xl border border-white/10 bg-[var(--augustus-surface)] px-4 py-3 transition hover:border-[var(--augustus-gold)]/40 whitespace-nowrap">
                   WhatsApp: {augustusData.brand.phoneDisplay}
                 </a>
               ) : null}
@@ -239,9 +239,9 @@ export default async function Home() {
                       <path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.549 4.103 1.508 5.83L.057 23.082a.75.75 0 0 0 .921.921l5.255-1.451A11.943 11.943 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.667-.518-5.188-1.42l-.371-.22-3.844 1.061 1.024-3.741-.241-.386A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
                     </svg>
                   </span>
-                  <div>
+                  <div className="min-w-0">
                     <p className="font-semibold text-[#25d366]">WhatsApp</p>
-                    <p className="text-[var(--augustus-text-soft)]">{augustusData.brand.phoneDisplay}</p>
+                    <p className="whitespace-nowrap text-[var(--augustus-text-soft)]">{augustusData.brand.phoneDisplay}</p>
                   </div>
                   <svg className="ml-auto h-4 w-4 shrink-0 text-[var(--augustus-text-soft)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
                 </a>
