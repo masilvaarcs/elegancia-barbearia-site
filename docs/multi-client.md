@@ -66,8 +66,8 @@ O sistema resolve os módulos e limites automaticamente a partir do `tier` escol
 | Galeria de cortes (máx. fotos reais) | 3 | 6 | 10 | 14 |
 | Seções Serviços e Contato | ✓ | ✓ | ✓ | ✓ |
 
-> Padrões definidos em `app/lib/augustus-data.ts` → `PLAN_MODULE_DEFAULTS` e `PLAN_LIMIT_DEFAULTS`.
-> Coberto por 30 testes unitários em `tests/unit/augustus-data.test.ts`.
+> Padrões definidos em `app/lib/elegancia-data.ts` → `PLAN_MODULE_DEFAULTS` e `PLAN_LIMIT_DEFAULTS`.
+> Coberto por 30 testes unitários em `tests/unit/elegancia-data.test.ts`.
 
 ### Comportamento dos módulos
 
@@ -173,3 +173,4 @@ No painel da Cloudflare Pages, configure as variáveis de ambiente para cada pro
 - `NEXT_PUBLIC_WHATSAPP_PROD_PHONE`
 
 Com isso, você pode manter um repositório base e publicar um site diferente por cliente sem alterar arquitetura e sem usar banco.
+

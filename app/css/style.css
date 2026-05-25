@@ -198,20 +198,20 @@
 */
 @layer base {
   :root {
-    --augustus-gold: #c6973a;
-    --augustus-gold-soft: #e2ba6c;
-    --augustus-bg-base: #060606;
-    --augustus-bg-soft: #171920;
-    --augustus-surface: #101114;
-    --augustus-surface-soft: #171920;
-    --augustus-glow-primary: rgba(198, 151, 58, 0.22);
-    --augustus-glow-secondary: rgba(226, 186, 108, 0.15);
-    --augustus-header-bg: rgba(10, 10, 10, 0.78);
-    --augustus-footer-bg: #060606;
-    --augustus-text: #f5f0e5;
-    --augustus-text-soft: #b8b6ae;
-    --augustus-text-muted: #b8b6ae;
-    --augustus-on-accent: #000000;
+    --elegancia-gold: #c6973a;
+    --elegancia-gold-soft: #e2ba6c;
+    --elegancia-bg-base: #060606;
+    --elegancia-bg-soft: #171920;
+    --elegancia-surface: #101114;
+    --elegancia-surface-soft: #171920;
+    --elegancia-glow-primary: rgba(198, 151, 58, 0.22);
+    --elegancia-glow-secondary: rgba(226, 186, 108, 0.15);
+    --elegancia-header-bg: rgba(10, 10, 10, 0.78);
+    --elegancia-footer-bg: #060606;
+    --elegancia-text: #f5f0e5;
+    --elegancia-text-soft: #b8b6ae;
+    --elegancia-text-muted: #b8b6ae;
+    --elegancia-on-accent: #000000;
   }
 
   h1,
@@ -223,7 +223,7 @@
   }
 
   ::selection {
-    background: color-mix(in oklab, var(--augustus-gold) 60%, transparent);
+    background: color-mix(in oklab, var(--elegancia-gold) 60%, transparent);
     color: white;
   }
 
@@ -250,6 +250,62 @@
   76%  { transform: rotate(-10deg) scale(1.10); }
   84%  { transform: rotate(8deg) scale(1.06); }
   92%  { transform: rotate(-3deg) scale(1.02); }
+}
+
+@keyframes gallery-disintegration-cycle {
+  0%, 62% {
+    opacity: 1;
+    filter: blur(0px) saturate(1);
+    transform: translate3d(0, 0, 0) scale(1);
+    clip-path: inset(0 0 0 0 round 16px);
+  }
+  72% {
+    opacity: 0.42;
+    filter: blur(2.8px) saturate(0.94);
+    transform: translate3d(10px, -3px, 0) scale(0.985);
+    clip-path: inset(6% 22% 8% 0 round 14px);
+  }
+  80% {
+    opacity: 0.1;
+    filter: blur(5.5px) saturate(0.88);
+    transform: translate3d(22px, -6px, 0) scale(0.965);
+    clip-path: inset(12% 54% 14% 0 round 10px);
+  }
+  88% {
+    opacity: 0;
+    filter: blur(7px) saturate(0.82);
+    transform: translate3d(34px, -9px, 0) scale(0.95);
+    clip-path: inset(18% 84% 22% 0 round 8px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px) saturate(1);
+    transform: translate3d(0, 0, 0) scale(1);
+    clip-path: inset(0 0 0 0 round 16px);
+  }
+}
+
+@keyframes gallery-dust-burst {
+  0%, 66% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.95);
+    background-position: 0% 50%, 100% 50%, 50% 50%;
+  }
+  74% {
+    opacity: 0.58;
+    transform: translate3d(8px, -4px, 0) scale(1.03);
+    background-position: 16% 42%, 82% 40%, 52% 46%;
+  }
+  84% {
+    opacity: 0.18;
+    transform: translate3d(24px, -9px, 0) scale(1.09);
+    background-position: 28% 36%, 68% 32%, 58% 40%;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(34px, -12px, 0) scale(1.12);
+    background-position: 35% 28%, 60% 24%, 62% 32%;
+  }
 }
 
 /* Thanos snap — saída: dissolve da direita para a esquerda */
@@ -283,6 +339,27 @@
   .gallery-card {
     animation: gallery-breathe 7s ease-in-out infinite;
   }
+
+  .gallery-disintegration {
+    animation-name: gallery-breathe, gallery-disintegration-cycle;
+    animation-duration: 7s, 10.5s;
+    animation-timing-function: ease-in-out, cubic-bezier(0.38, 0.09, 0.36, 0.98);
+    animation-iteration-count: infinite, infinite;
+    animation-delay: inherit, var(--disintegration-delay, 0s);
+  }
+
+  .gallery-disintegration .dust-layer {
+    background-image:
+      radial-gradient(circle at 22% 44%, color-mix(in oklab, var(--elegancia-gold-soft) 80%, white) 0%, transparent 40%),
+      radial-gradient(circle at 78% 40%, color-mix(in oklab, var(--elegancia-gold) 75%, white) 0%, transparent 36%),
+      radial-gradient(circle at 50% 56%, color-mix(in oklab, var(--elegancia-text) 60%, white) 0%, transparent 42%);
+    mix-blend-mode: screen;
+    opacity: 0;
+    filter: blur(0.6px);
+    animation: gallery-dust-burst 10.5s ease-out infinite;
+    animation-delay: var(--disintegration-delay, 0s);
+  }
+
   .scissors-icon {
     opacity: 0.5;
     animation: scissors-wiggle 6s ease-in-out infinite;
@@ -290,6 +367,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .gallery-disintegration,
+  .gallery-disintegration .dust-layer,
+  .scissors-icon {
+    animation: none !important;
+  }
+
   .scissors-icon {
     opacity: 0.35;
   }

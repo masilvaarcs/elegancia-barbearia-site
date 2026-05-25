@@ -87,6 +87,7 @@ export type ClientProfileInput = {
     addressLine: string;
     city: string;
     mapsUrl: string;
+    mapEmbedUrl?: string;
   };
   metadata: {
     siteUrl: string;

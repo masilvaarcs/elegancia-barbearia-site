@@ -1,13 +1,13 @@
 import Link from "next/link";
 import Logo from "./logo";
-import { getAugustusData } from "@/app/lib/augustus-data";
+import { getEleganciaData } from "@/app/lib/elegancia-data";
 
 export default async function Header() {
-  const augustusData = await getAugustusData();
-  const enabledModules = augustusData.plan.modules;
+  const eleganciaData = await getEleganciaData();
+  const enabledModules = eleganciaData.plan.modules;
 
   return (
-    <header className="sticky top-0 z-30 w-full border-b border-white/10 bg-[var(--augustus-header-bg)] backdrop-blur-md">
+    <header className="sticky top-0 z-30 w-full border-b border-white/10 bg-[var(--elegancia-header-bg)] backdrop-blur-md">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="flex min-h-16 flex-wrap items-center justify-between gap-3 py-3">
           <div className="flex flex-1 items-center">
@@ -16,11 +16,11 @@ export default async function Header() {
 
           <nav aria-label="Navegação principal" className="hidden md:block">
             <ul className="flex items-center gap-6">
-              {augustusData.nav.map((item) => (
+              {eleganciaData.nav.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-sm font-medium text-[var(--augustus-text-soft)] transition hover:text-[var(--augustus-gold-soft)]"
+                    className="text-sm font-medium text-[var(--elegancia-text-soft)] transition hover:text-[var(--elegancia-gold-soft)]"
                   >
                     {item.label}
                   </Link>
@@ -34,7 +34,7 @@ export default async function Header() {
               <li>
                 <Link
                   href="/signin"
-                  className="btn-sm border border-[var(--augustus-gold)]/40 bg-transparent text-[var(--augustus-text)] shadow-none hover:bg-[var(--augustus-gold)]/15"
+                  className="btn-sm border border-[var(--elegancia-gold)]/40 bg-transparent text-[var(--elegancia-text)] shadow-none hover:bg-[var(--elegancia-gold)]/15"
                 >
                   Agendar
                 </Link>
@@ -43,10 +43,10 @@ export default async function Header() {
             {enabledModules.whatsappCta ? (
               <li>
                 <Link
-                  href={augustusData.brand.whatsappUrl}
+                  href={eleganciaData.brand.whatsappUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="btn-sm bg-[var(--augustus-gold)] text-[var(--augustus-on-accent)] shadow-sm hover:bg-[var(--augustus-gold-soft)]"
+                  className="btn-sm bg-[var(--elegancia-gold)] text-[var(--elegancia-on-accent)] shadow-sm hover:bg-[var(--elegancia-gold-soft)]"
                 >
                   WhatsApp
                 </Link>
@@ -58,3 +58,4 @@ export default async function Header() {
     </header>
   );
 }
+

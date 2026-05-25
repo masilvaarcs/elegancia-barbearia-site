@@ -6,7 +6,7 @@ test.describe("site navigation", () => {
 
     await page.goto("/");
 
-    await expect(page.getByRole("heading", { name: /visual impecável/i })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1, name: /estilo que faz você entrar numa sala/i })).toBeVisible();
 
     await page.getByRole("link", { name: /agendar/i }).first().click();
     await expect(page).toHaveURL(/\/signin$/);
@@ -38,6 +38,7 @@ test.describe("site navigation", () => {
 
     await expect(page.getByRole("link", { name: /whatsapp/i }).first()).toBeVisible();
     await expect(page.getByRole("heading", { name: /resultados reais da barbearia/i })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 3, name: /por que escolher a elegância/i })).toBeVisible();
 
     await page.goto("/signin");
     await expect(page.getByRole("link", { name: /continuar no whatsapp/i })).toBeVisible();

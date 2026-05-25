@@ -1,5 +1,5 @@
 param(
-  [string]$ClientId = "augustus",
+  [string]$ClientId = "elegancia",
   [string]$SourceImage = "hero-principal.jpg"
 )
 

@@ -1,3 +1,1 @@
-export function toWhatsAppUrl(phoneRaw: string, lines: string[]) {
-  return `https://wa.me/${phoneRaw}?text=${encodeURIComponent(lines.join("\n"))}`;
-}
+export { buildProfessionalWhatsAppPromptLines, buildProfessionalWhatsAppUrl, formatWhatsAppDate, getDefaultWhatsAppTime, toWhatsAppUrl } from "@/app/lib/whatsapp-message";

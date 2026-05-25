@@ -6,7 +6,7 @@ test.describe("mobile responsive layout", () => {
     await page.waitForLoadState("networkidle");
 
     await expect(page.getByTestId("hero-section")).toBeVisible();
-    await expect(page.getByRole("heading", { name: /visual impecável/i })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1, name: /estilo que faz você entrar numa sala/i })).toBeVisible();
 
     const galleryGrid = page.getByTestId("gallery-grid");
     await galleryGrid.scrollIntoViewIfNeeded();
@@ -31,7 +31,7 @@ test.describe("mobile responsive layout", () => {
     await page.waitForLoadState("networkidle");
 
     const header = page.locator("header").first();
-    const eyebrow = page.getByText(/barbearia premium em gravataí/i).first();
+    const eyebrow = page.getByText(/barbearia clássica de alto padrão/i).first();
 
     await expect(header).toBeVisible();
     await expect(eyebrow).toBeVisible();

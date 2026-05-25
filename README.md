@@ -1,6 +1,6 @@
-# Augustu's Barbearia Website
+# Elegância Barbearia Website
 
-Landing page oficial da Augustu's Barbearia, desenvolvida com foco em conversão, identidade premium e experiência mobile-first.
+Landing page oficial da Elegância Barbearia, desenvolvida com foco em conversão, identidade premium e experiência mobile-first.
 
 ![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=nextdotjs)
 ![React](https://img.shields.io/badge/React-19-149ECA?logo=react)
@@ -84,8 +84,8 @@ theme: {
 | Galeria de cortes (máx. fotos reais) | 3 | 6 | 10 | 14 |
 | Seções Serviços e Contato | ✓ | ✓ | ✓ | ✓ |
 
-> Definido em `app/lib/augustus-data.ts` → `PLAN_MODULE_DEFAULTS` e `PLAN_LIMIT_DEFAULTS`.
-> Coberto por testes unitários em `tests/unit/augustus-data.test.ts` (30 casos, todos os tiers).
+> Definido em `app/lib/elegancia-data.ts` → `PLAN_MODULE_DEFAULTS` e `PLAN_LIMIT_DEFAULTS`.
+> Coberto por testes unitários em `tests/unit/elegancia-data.test.ts` (30 casos, todos os tiers).
 
 ### Comportamento dos módulos
 
@@ -149,11 +149,6 @@ Para regenerar as variações do cliente ativo:
 pnpm hero:variants -- -ClientId nome-do-cliente
 ```
 
-Para Augustus, os arquivos gerados vão de:
-
-- `public/images/augustus/hero-variant-01.jpg`
-- `public/images/augustus/hero-variant-10.jpg`
-
 Depois ajuste `heroThemeVariants` no perfil do cliente para casar paleta e glow com cada imagem.
 
 ## Fluxo mínimo para replicar + publicar na Cloudflare
@@ -201,28 +196,30 @@ Todos os contatos exibidos no site são dados públicos do negócio.
 
 ## Como iniciar o projeto
 
-Use o script `augustus-start.ps1` na raiz do projeto:
+Use o script `elegancia-start.ps1` na raiz do projeto:
 
 ```powershell
-# Desenvolvimento — hot-reload, troca de plano sem restart
-.\augustus-start.ps1
+# Desenvolvimento - hot-reload, troca de plano sem restart
+.\elegancia-start.ps1
 
 # Porta customizada
-.\augustus-start.ps1 -Port 3003
+.\elegancia-start.ps1 -Port 3003
 
 # Build de produção — gera out/ para Cloudflare Pages
-.\augustus-start.ps1 -Mode build
+.\elegancia-start.ps1 -Mode build
 
-# Preview — build + serve local do out/ (simula produção)
-.\augustus-start.ps1 -Mode preview
+# Preview - build + serve local do out/ (simula produção)
+.\elegancia-start.ps1 -Mode preview
 ```
+
+Os atalhos `elegancia-start-basic.ps1`, `elegancia-start-normal.ps1`, `elegancia-start-premium.ps1` e `elegancia-start-superPremium.ps1` apenas chamam o script principal com o tier correspondente.
 
 O script mata automaticamente a porta em uso, limpa o `out/` (inclusive arquivos read-only gerados pelo Next.js) e exibe as URLs de troca de plano ao subir em modo `dev`.
 
 ## Estrutura relevante
 
 ```text
-augustus-template/
+elegancia-barbearia-site/
 ├── app/
 │   ├── (default)/page.tsx          # Landing page principal
 │   ├── (auth)/signin/page.tsx      # Fluxo de agendamento
@@ -230,21 +227,21 @@ augustus-template/
 │   ├── (auth)/reset-password/page.tsx
 │   ├── api/dev/set-plan/route.ts   # Override de plano via cookie (DEV only)
 │   └── lib/
-│       ├── augustus-data.ts         # Resolve cliente ativo + getAugustusData()
-│       ├── version.ts               # Versão do site (APP_VERSION)
-│       ├── client-types.ts          # Tipos de perfil
-│       └── clients/                 # Perfis de cada cliente
+│       ├── elegancia-data.ts       # Resolve cliente ativo + getEleganciaData()
+│       ├── version.ts              # Versão do site (APP_VERSION)
+│       ├── client-types.ts         # Tipos de perfil
+│       └── clients/                # Perfis de cada cliente
 ├── components/ui/
 │   ├── header.tsx
 │   ├── footer.tsx                   # Exibe badge Plano · versão
 │   └── logo.tsx
-├── public/images/augustus/          # Assets reais sincronizados
-├── augustus-start.ps1               # Script de build e inicialização
-├── docs/multi-client.md              # Playbook de replicação
+├── public/images/elegancia/         # Assets reais sincronizados
+├── elegancia-start.ps1              # Script de build e inicialização
+├── docs/multi-client.md             # Playbook de replicação
 ├── scripts/create-client-profile.mjs # Gerador de perfil novo
 ├── scripts/sync-reference-data.ps1  # Script de sincronização dos dados
 ├── tests/
-│   ├── unit/augustus-data.test.ts   # 30 casos (todos os tiers e overrides)
+│   ├── unit/elegancia-data.test.ts   # 30 casos (todos os tiers e overrides)
 │   └── e2e/navigation.spec.ts
 ├── playwright.config.ts
 └── vitest.config.ts
@@ -307,7 +304,7 @@ Sempre que houver atualização na pasta de referência, rode:
 pnpm sync:data
 ```
 
-Esse script atualiza automaticamente os assets em `public/images/augustus`.
+Esse script atualiza automaticamente os assets em `public/images/elegancia`.
 
 ## Scripts disponíveis
 
@@ -371,3 +368,5 @@ Configuração pronta neste projeto (site estático):
 - `codiium.wrangler`
 
 As recomendações estão no workspace em `.vscode/extensions.json`.
+
+

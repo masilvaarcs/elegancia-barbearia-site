@@ -1,22 +1,22 @@
 export const metadata = {
   title: "Agendamento",
-  description: "Agende seu horário na Augustu's Barbearia.",
+  description: "Agende seu horário na Elegância Barbearia.",
 };
 
 import Link from "next/link";
-import { augustusData } from "@/app/lib/augustus-data";
+import { eleganciaData } from "@/app/lib/elegancia-data";
 import { SchedulingForm } from "@/components/forms/scheduling-form";
 
 export default function SignIn() {
   return (
-    <div className="rounded-2xl border border-white/10 bg-[var(--augustus-surface)] p-6 shadow-xl shadow-black/30">
+    <div className="rounded-2xl border border-white/10 bg-[var(--elegancia-surface)] p-6 shadow-xl shadow-black/30">
       <div className="mb-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--augustus-gold-soft)]">
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--elegancia-gold-soft)]">
           Agendamento rápido
         </p>
         <h1 className="mt-3 text-4xl font-semibold text-white">Reserve seu horário</h1>
         <p className="mt-3 text-sm text-zinc-300">
-          Fluxo direto: preencha nome e telefone, toque no botão e confirme o horário no WhatsApp.
+          É simples: preencha nome e telefone, toque no botão e confirme seu horário no WhatsApp.
         </p>
       </div>
 
@@ -27,18 +27,19 @@ export default function SignIn() {
       <SchedulingForm />
 
       <div className="mt-6 rounded-xl border border-white/10 bg-black/30 p-4 text-sm text-zinc-300">
-        Instagram: {augustusData.brand.instagramHandle}
+        Instagram: {eleganciaData.brand.instagramHandle}
         <br />
-        Endereço: {augustusData.brand.addressLine}
+        Endereço: {eleganciaData.brand.addressLine}, {eleganciaData.brand.city}
         <br />
         Dados digitados no site não ficam salvos em banco neste momento; eles seguem no link para o WhatsApp para concluir o atendimento.
       </div>
 
       <div className="mt-6 text-center">
-        <Link className="text-sm text-[var(--augustus-gold-soft)] underline hover:no-underline" href="/reset-password">
+        <Link className="text-sm text-[var(--elegancia-gold-soft)] underline hover:no-underline" href="/reset-password">
           Não conseguiu concluir? Reabrir atendimento
         </Link>
       </div>
     </div>
   );
 }
+

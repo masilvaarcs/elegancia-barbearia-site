@@ -1,6 +1,6 @@
 param(
   [string]$SourcePath = "..\esquema-dados\dados",
-  [string]$DestinationPath = "public\images\augustus"
+  [string]$DestinationPath = "public\images\elegancia"
 )
 
 $ErrorActionPreference = "Stop"

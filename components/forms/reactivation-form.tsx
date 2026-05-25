@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useMemo, useState } from "react";
-import { augustusData } from "@/app/lib/augustus-data";
+import { eleganciaData } from "@/app/lib/elegancia-data";
 import { toWhatsAppUrl } from "./whatsapp";
 
 export function ReactivationForm() {
@@ -11,14 +11,14 @@ export function ReactivationForm() {
 
   const whatsappUrl = useMemo(() => {
     const messageLines = [
-      "Olá! Quero retomar meu atendimento com a Augustus.",
+      "Olá! Quero retomar meu atendimento com a Elegância Barbearia.",
       "",
       "Dados para reativação:",
       `E-mail: ${email.trim() || "-"}`,
       `Telefone: ${phone.trim() || "-"}`,
     ];
 
-    return toWhatsAppUrl(augustusData.brand.phoneRaw, messageLines);
+    return toWhatsAppUrl(eleganciaData.brand.phoneRaw, messageLines);
   }, [email, phone]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -86,3 +86,4 @@ export function ReactivationForm() {
     </form>
   );
 }
+

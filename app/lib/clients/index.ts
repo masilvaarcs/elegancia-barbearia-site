@@ -1,10 +1,10 @@
 import type { ClientProfileInput } from "../client-types";
-import { augustusProfileInput } from "./augustus";
+import { eleganciaProfileInput } from "./elegancia";
 
-export const defaultClientId = "augustus";
+export const defaultClientId = "elegancia";
 
 export const clientProfiles: Record<string, ClientProfileInput> = {
-  augustus: augustusProfileInput,
+  elegancia: eleganciaProfileInput,
 };
 
 export function resolveClientId(rawClientId: string | undefined) {
@@ -24,3 +24,4 @@ export function resolveClientId(rawClientId: string | undefined) {
 export function getAvailableClientIds() {
   return Object.keys(clientProfiles).sort();
 }
+

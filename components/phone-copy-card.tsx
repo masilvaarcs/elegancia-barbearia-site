@@ -1,17 +1,22 @@
 "use client";
 
 import { useState } from "react";
+import { buildQuickWhatsAppUrl } from "@/app/lib/whatsapp-message";
+import { useVisitorName } from "./use-visitor-name";
 
 interface PhoneCopyCardProps {
   phoneDisplay: string; // "(51) 98131-1911"
+  phoneRaw: string;
   whatsappUrl: string;
   showWhatsappButton?: boolean;
 }
 
-export default function PhoneCopyCard({ phoneDisplay, whatsappUrl, showWhatsappButton = false }: PhoneCopyCardProps) {
+export default function PhoneCopyCard({ phoneDisplay, phoneRaw, whatsappUrl, showWhatsappButton = false }: PhoneCopyCardProps) {
   const [copied, setCopied] = useState(false);
+  const [visitorName] = useVisitorName();
 
   const fullNumber = `+55 ${phoneDisplay}`;
+  const quickWhatsAppUrl = visitorName.trim() ? buildQuickWhatsAppUrl(phoneRaw, visitorName) : whatsappUrl;
 
   const handleCopy = async () => {
     try {
@@ -24,7 +29,7 @@ export default function PhoneCopyCard({ phoneDisplay, whatsappUrl, showWhatsappB
   };
 
   return (
-    <div data-testid="phone-copy-card" className="relative overflow-hidden rounded-2xl border border-[#25d366]/25 bg-gradient-to-br from-[#25d366]/12 via-[var(--augustus-surface)] to-[var(--augustus-surface)] p-4 sm:p-5">
+    <div data-testid="phone-copy-card" className="relative overflow-hidden rounded-2xl border border-[#25d366]/25 bg-gradient-to-br from-[#25d366]/12 via-[var(--elegancia-surface)] to-[var(--elegancia-surface)] p-4 sm:p-5">
       {/* Brilho sutil no canto superior */}
       <div
         className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full opacity-20"
@@ -68,7 +73,7 @@ export default function PhoneCopyCard({ phoneDisplay, whatsappUrl, showWhatsappB
             "flex h-10 w-full shrink-0 items-center justify-center gap-2 rounded-xl border text-xs font-semibold uppercase tracking-[0.16em] transition-all duration-200 sm:w-10 sm:gap-0 sm:text-[0px]",
             copied
               ? "border-[#25d366]/60 bg-[#25d366]/20 text-[#25d366]"
-              : "border-white/10 bg-white/5 text-[var(--augustus-text-soft)] hover:border-[#25d366]/40 hover:bg-[#25d366]/10 hover:text-[#25d366]",
+              : "border-white/10 bg-white/5 text-[var(--elegancia-text-soft)] hover:border-[#25d366]/40 hover:bg-[#25d366]/10 hover:text-[#25d366]",
           ].join(" ")}
         >
           {copied ? (
@@ -105,7 +110,7 @@ export default function PhoneCopyCard({ phoneDisplay, whatsappUrl, showWhatsappB
 
           {/* Ação WhatsApp */}
           <a
-            href={whatsappUrl}
+            href={quickWhatsAppUrl}
             target="_blank"
             rel="noreferrer"
             className="flex items-center justify-center gap-2 rounded-xl bg-[#25d366] py-2.5 text-sm font-semibold text-white transition hover:bg-[#1fba58] active:scale-[0.98]"
@@ -121,3 +126,4 @@ export default function PhoneCopyCard({ phoneDisplay, whatsappUrl, showWhatsappB
     </div>
   );
 }
+

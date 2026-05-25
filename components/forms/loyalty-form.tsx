@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useMemo, useState } from "react";
-import { augustusData } from "@/app/lib/augustus-data";
+import { eleganciaData } from "@/app/lib/elegancia-data";
 import { toWhatsAppUrl } from "./whatsapp";
 
 export function LoyaltyForm() {
@@ -13,7 +13,7 @@ export function LoyaltyForm() {
 
   const whatsappUrl = useMemo(() => {
     const messageLines = [
-      "Olá! Quero entrar no Clube Augustus.",
+      "Olá! Quero entrar no Clube Elegância.",
       "",
       "Dados de cadastro:",
       `Nome: ${name.trim() || "-"}`,
@@ -22,7 +22,7 @@ export function LoyaltyForm() {
       `Instagram: ${instagram.trim() || "-"}`,
     ];
 
-    return toWhatsAppUrl(augustusData.brand.phoneRaw, messageLines);
+    return toWhatsAppUrl(eleganciaData.brand.phoneRaw, messageLines);
   }, [name, email, phone, instagram]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -120,10 +120,11 @@ export function LoyaltyForm() {
       </button>
 
       <p className="text-xs text-white/50">
-        Seu cadastro é confirmado no WhatsApp e já entra no fluxo de benefícios do Clube Augustus.
+        Seu cadastro é confirmado no WhatsApp e já entra no fluxo de benefícios do Clube Elegância.
       </p>
 
       {feedback ? <p className="text-xs text-[#D6B25E]">{feedback}</p> : null}
     </form>
   );
 }
+

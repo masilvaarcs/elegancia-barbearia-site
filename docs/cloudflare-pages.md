@@ -1,22 +1,22 @@
 # Deploy no Cloudflare Pages
 
-Este projeto esta preparado para deploy via Cloudflare Pages como site estatico gerado pelo Next.js.
+Este projeto está preparado para deploy via Cloudflare Pages como site estático gerado pelo Next.js.
 Nao utiliza base de dados: o conteudo vem de arquivos de perfil em `app/lib/clients` e imagens em `public/images/<cliente>`.
 
-## 1) Pre-requisitos
+## 1) Pré-requisitos
 
 - Conta Cloudflare conectada ao GitHub
-- Projeto no GitHub: `masilvaarcs/augustus-barbearia-site`
+- Projeto no GitHub: `masilvaarcs/elegancia-barbearia-site`
 - Node.js LTS 20.x
 
-## 2) Configuracao no Cloudflare Pages
+## 2) Configuração no Cloudflare Pages
 
 - Framework preset: `Next.js (Static HTML Export)` ou `None`
 - Build command: `pnpm cf:pages:build`
 - Build output directory: `out`
-- Root directory: `augustus-template` (se o repositório tiver pasta raiz diferente)
+- Root directory: repositório na raiz (`.`)
 
-## 3) Variaveis recomendadas
+## 3) Variáveis recomendadas
 
 - `NODE_VERSION=20`
 - `NPM_CONFIG_UPDATE_NOTIFIER=false`
@@ -24,7 +24,7 @@ Nao utiliza base de dados: o conteudo vem de arquivos de perfil em `app/lib/clie
 - `NEXT_PUBLIC_SITE_URL=https://dominio-do-cliente.com`
 - `NEXT_PUBLIC_WHATSAPP_PROD_PHONE=55...`
 
-## 4) Scripts locais uteis
+## 4) Scripts locais úteis
 
 - `pnpm cf:pages:build` - gera output estatico em `out`
 - `pnpm cf:pages:dev` - simula ambiente Pages localmente
@@ -35,7 +35,7 @@ Nao utiliza base de dados: o conteudo vem de arquivos de perfil em `app/lib/clie
 1. Rodar `pnpm create:client nome-do-cliente` (quando for novo cliente)
 1. Ajustar `app/lib/clients/nome-do-cliente.ts` e imagens em `public/images/nome-do-cliente`
 1. Rodar `pnpm test` localmente
-1. Commitar alteracoes
+1. Commitar alterações
 1. Push para branch principal
 1. Cloudflare Pages gera preview e producao automaticamente
 
@@ -47,3 +47,4 @@ Mesmo assim, monitore mensalmente:
 - build minutes
 - requests/bandwidth
 - limites de funcoes edge
+

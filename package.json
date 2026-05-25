@@ -7,7 +7,7 @@
     "build": "next build",
     "cf:pages:build": "pnpm build",
     "cf:pages:dev": "pnpm cf:pages:build && wrangler pages dev out",
-    "cf:pages:deploy": "wrangler pages deploy out --project-name augustus-barbearia-site",
+    "cf:pages:deploy": "wrangler pages deploy out --project-name elegancia-barbearia-site",
     "build:export": "pnpm build",
     "start:out": "npx serve out",
     "start": "next start",
@@ -60,3 +60,4 @@
   },
   "packageManager": "pnpm@10.15.1+sha512.34e538c329b5553014ca8e8f4535997f96180a1d0f614339357449935350d924e22f8614682191264ec33d1462ac21561aff97f6bb18065351c162c7e8f6de67"
 }
+

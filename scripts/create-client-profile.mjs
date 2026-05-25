@@ -85,7 +85,7 @@ export const ${constName}: ClientProfileInput = {
     instagramUrl: "https://www.instagram.com/clienteexemplo/",
     secondaryInstagramHandle: "@parceiroexemplo",
     secondaryInstagramUrl: "https://www.instagram.com/parceiroexemplo/",
-    defaultPhoneRaw: "5551999999999",
+    defaultPhoneRaw: "5551984228067",
     addressLine: "Rua Exemplo, 100",
     city: "Centro, Cidade - UF",
     mapsUrl: "https://www.google.com/maps/search/?api=1&query=Rua+Exemplo,+100",
@@ -214,7 +214,7 @@ let indexContent = fs.readFileSync(indexPath, "utf8");
 const importLine = `import { ${constName} } from "./${clientId}";`;
 
 if (!indexContent.includes(importLine)) {
-  const anchorImport = 'import { augustusProfileInput } from "./augustus";';
+  const anchorImport = 'import { eleganciaProfileInput } from "./elegancia";';
 
   if (!indexContent.includes(anchorImport)) {
     throw new Error("Nao foi possivel localizar o import base em app/lib/clients/index.ts");
@@ -231,3 +231,4 @@ console.log(`Pasta de imagens criada: public/images/${clientId}`);
 console.log(`Atualize .env com NEXT_PUBLIC_CLIENT_ID=${clientId}`);
 console.log(`Gere 10 variacoes de hero com: pnpm hero:variants -- -ClientId ${clientId}`);
 console.log("Ajuste heroThemeVariants no perfil para casar com a identidade visual do novo cliente.");
+

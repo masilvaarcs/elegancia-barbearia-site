@@ -296,20 +296,20 @@ export default function ThemeVariantProvider({
     );
 
     for (const target of targets) {
-      target.style.setProperty("--augustus-gold", activeVariant.palette.accent);
-      target.style.setProperty("--augustus-gold-soft", activeVariant.palette.accentSoft);
-      target.style.setProperty("--augustus-surface", activeVariant.palette.surface);
-      target.style.setProperty("--augustus-surface-soft", activeVariant.palette.surfaceSoft);
-      target.style.setProperty("--augustus-bg-base", activeVariant.palette.background);
-      target.style.setProperty("--augustus-bg-soft", activeVariant.palette.surfaceSoft);
-      target.style.setProperty("--augustus-glow-primary", activeVariant.glowPrimary);
-      target.style.setProperty("--augustus-glow-secondary", activeVariant.glowSecondary);
-      target.style.setProperty("--augustus-header-bg", hexToRgba(activeVariant.palette.background, 0.78));
-      target.style.setProperty("--augustus-footer-bg", activeVariant.palette.background);
-      target.style.setProperty("--augustus-text", resolvedTextStrong);
-      target.style.setProperty("--augustus-text-soft", resolvedTextSoft);
-      target.style.setProperty("--augustus-text-muted", resolvedTextMuted);
-      target.style.setProperty("--augustus-on-accent", onAccent);
+      target.style.setProperty("--elegancia-gold", activeVariant.palette.accent);
+      target.style.setProperty("--elegancia-gold-soft", activeVariant.palette.accentSoft);
+      target.style.setProperty("--elegancia-surface", activeVariant.palette.surface);
+      target.style.setProperty("--elegancia-surface-soft", activeVariant.palette.surfaceSoft);
+      target.style.setProperty("--elegancia-bg-base", activeVariant.palette.background);
+      target.style.setProperty("--elegancia-bg-soft", activeVariant.palette.surfaceSoft);
+      target.style.setProperty("--elegancia-glow-primary", activeVariant.glowPrimary);
+      target.style.setProperty("--elegancia-glow-secondary", activeVariant.glowSecondary);
+      target.style.setProperty("--elegancia-header-bg", hexToRgba(activeVariant.palette.background, 0.78));
+      target.style.setProperty("--elegancia-footer-bg", activeVariant.palette.background);
+      target.style.setProperty("--elegancia-text", resolvedTextStrong);
+      target.style.setProperty("--elegancia-text-soft", resolvedTextSoft);
+      target.style.setProperty("--elegancia-text-muted", resolvedTextMuted);
+      target.style.setProperty("--elegancia-on-accent", onAccent);
     }
   }, [activeVariant]);
 
@@ -325,3 +325,4 @@ export default function ThemeVariantProvider({
     </ThemeVariantContext.Provider>
   );
 }
+

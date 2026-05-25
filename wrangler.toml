@@ -1,4 +1,5 @@
-name = "augustus-barbearia-site"
+name = "elegancia-barbearia-site"
 compatibility_date = "2025-05-20"
 compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = "out"
+

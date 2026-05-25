@@ -1,5 +1,5 @@
 import Logo from "@/components/ui/logo";
-import { augustusData } from "@/app/lib/augustus-data";
+import { eleganciaData } from "@/app/lib/elegancia-data";
 import RandomHeroImage from "@/components/random-hero-image";
 
 export default function AuthLayout({
@@ -19,12 +19,12 @@ export default function AuthLayout({
         </div>
       </header>
 
-      <main className="relative flex grow bg-[var(--augustus-bg-base)]">
+      <main className="relative flex grow bg-[var(--elegancia-bg-base)]">
         <div
           className="pointer-events-none absolute bottom-0 left-0 -translate-x-1/3"
           aria-hidden="true"
         >
-          <div className="h-80 w-80 rounded-full bg-linear-to-tr from-[var(--augustus-gold)] to-transparent opacity-30 blur-[160px]"></div>
+          <div className="h-80 w-80 rounded-full bg-linear-to-tr from-[var(--elegancia-gold)] to-transparent opacity-30 blur-[160px]"></div>
         </div>
 
         <div className="w-full">
@@ -37,28 +37,28 @@ export default function AuthLayout({
           </div>
         </div>
 
-        <div className="relative my-6 mr-6 hidden w-[560px] shrink-0 overflow-hidden rounded-2xl border border-[var(--augustus-gold)]/20 lg:block">
+        <div className="relative my-6 mr-6 hidden w-[560px] shrink-0 overflow-hidden rounded-2xl border border-[var(--elegancia-gold)]/20 lg:block">
           <RandomHeroImage
-            fallbackSrc={augustusData.featuredImages.hero}
+            fallbackSrc={eleganciaData.featuredImages.hero}
             className="h-full w-full object-cover"
             width={640}
             height={640}
-            alt="Ambiente da Augustu's Barbearia"
+            alt="Ambiente da Elegância Barbearia"
             priority
           />
-          <div className="absolute inset-0 bg-[linear-gradient(to_top,var(--augustus-bg-base),color-mix(in_oklab,var(--augustus-bg-base)_45%,transparent),transparent)]"></div>
+          <div className="absolute inset-0 bg-[linear-gradient(to_top,var(--elegancia-bg-base),color-mix(in_oklab,var(--elegancia-bg-base)_45%,transparent),transparent)]"></div>
           <div className="absolute inset-x-0 bottom-0 p-8">
-            <h2 className="text-3xl font-semibold text-[var(--augustus-gold-soft)]">
-              {augustusData.brand.name}
+            <h2 className="text-3xl font-semibold text-[var(--elegancia-gold-soft)]">
+              {eleganciaData.brand.name}
             </h2>
-            <p className="mt-2 text-[var(--augustus-text)]">{augustusData.brand.tagline}</p>
-            <p className="mt-5 text-sm text-[var(--augustus-text-soft)]">
-              {augustusData.brand.addressLine}
+            <p className="mt-2 text-[var(--elegancia-text)]">{eleganciaData.brand.tagline}</p>
+            <p className="mt-5 text-sm text-[var(--elegancia-text-soft)]">
+              {eleganciaData.brand.addressLine}
               <br />
-              {augustusData.brand.city}
+              {eleganciaData.brand.city}
             </p>
-            <p className="mt-3 whitespace-nowrap text-sm text-[var(--augustus-text-soft)]">
-              WhatsApp: {augustusData.brand.phoneDisplay}
+            <p className="mt-3 whitespace-nowrap text-sm text-[var(--elegancia-text-soft)]">
+              WhatsApp: {eleganciaData.brand.phoneDisplay}
             </p>
           </div>
         </div>
@@ -66,3 +66,4 @@ export default function AuthLayout({
     </>
   );
 }
+
