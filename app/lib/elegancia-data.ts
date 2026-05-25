@@ -1,5 +1,6 @@
 import { cache } from "react";
 import { clientProfiles, getAvailableClientIds, resolveClientId } from "./clients";
+import { resolveBrandNameFromRepository } from "./client-brand-name";
 import { buildProfessionalWhatsAppUrl } from "./whatsapp-message";
 import type {
   ActiveClientData,
@@ -254,6 +255,7 @@ function getWhatsappPhoneRaw(defaultPhoneRaw: string) {
 function buildActiveClientData(clientId: string, devCookieTier?: ClientPlanTier): ActiveClientData {
   const profile = clientProfiles[clientId];
   const whatsappPhoneRaw = getWhatsappPhoneRaw(profile.brand.defaultPhoneRaw);
+  const resolvedBrandName = resolveBrandNameFromRepository(profile.brand.name);
   // Cookie override (per-request, DEV only) tem prioridade sobre a variável de ambiente.
   const devPlanTier = devCookieTier ?? resolveDevPlanOverrideTier();
   const devThemeOverride = resolveDevThemeOverride();
@@ -283,6 +285,7 @@ function buildActiveClientData(clientId: string, devCookieTier?: ClientPlanTier)
     theme,
     brand: {
       ...profile.brand,
+      name: resolvedBrandName,
       phoneDisplay: formatPhoneDisplay(whatsappPhoneRaw),
       phoneRaw: whatsappPhoneRaw,
       whatsappUrl: buildProfessionalWhatsAppUrl(whatsappPhoneRaw),

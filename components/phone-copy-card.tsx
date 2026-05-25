@@ -5,13 +5,14 @@ import { buildQuickWhatsAppUrl } from "@/app/lib/whatsapp-message";
 import { useVisitorName } from "./use-visitor-name";
 
 interface PhoneCopyCardProps {
+  brandName: string;
   phoneDisplay: string; // "(51) 98131-1911"
   phoneRaw: string;
   whatsappUrl: string;
   showWhatsappButton?: boolean;
 }
 
-export default function PhoneCopyCard({ phoneDisplay, phoneRaw, whatsappUrl, showWhatsappButton = false }: PhoneCopyCardProps) {
+export default function PhoneCopyCard({ brandName, phoneDisplay, phoneRaw, whatsappUrl, showWhatsappButton = false }: PhoneCopyCardProps) {
   const [copied, setCopied] = useState(false);
   const [visitorName] = useVisitorName();
 
@@ -47,7 +48,7 @@ export default function PhoneCopyCard({ phoneDisplay, phoneRaw, whatsappUrl, sho
           </svg>
         </span>
         <span className="min-w-0 flex-1 text-xs font-medium uppercase tracking-[0.2em] text-[#25d366]/80">
-          Augustu&apos;s Barbearia
+          {brandName}
         </span>
         {/* Indicador online */}
         <span className="flex w-full items-center gap-1.5 text-xs text-[#25d366]/70 sm:ml-auto sm:w-auto">

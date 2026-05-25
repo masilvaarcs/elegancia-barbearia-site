@@ -221,6 +221,7 @@ export default async function Home() {
             <div className="mt-6 space-y-3 text-sm">
               {/* Telefone com copiar — sempre visível */}
               <PhoneCopyCard
+                brandName={eleganciaData.brand.name}
                 phoneDisplay={eleganciaData.brand.phoneDisplay}
                 phoneRaw={eleganciaData.brand.phoneRaw}
                 whatsappUrl={eleganciaData.brand.whatsappUrl}
