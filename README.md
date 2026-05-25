@@ -77,7 +77,7 @@ theme: {
 ### Tabela de módulos por plano
 
 | Módulo | Basic | Normal | Premium | SuperPremium |
-|---|:---:|:---:|:---:|:---:|
+| --- | :---: | :---: | :---: | :---: |
 | Botão **Agendar** no header/hero | ✗ | ✗ | ✓ | ✓ |
 | Botão **WhatsApp** no header/footer | ✗ | ✓ | ✓ | ✓ |
 | Seção **Premium Concierge** | ✗ | ✗ | ✓ | ✓ |
@@ -90,7 +90,7 @@ theme: {
 ### Comportamento dos módulos
 
 | Chave | Efeito no site |
-|---|---|
+| --- | --- |
 | `bookingCta` | Botão **Agendar** no header e no CTA do hero |
 | `whatsappCta` | Botão **WhatsApp** no header, no CTA do hero e no rodapé |
 | `premiumConcierge` | Seção de atendimento diferenciado na home |
@@ -111,7 +111,7 @@ theme: {
 
 Para testar planos pagos sem reiniciar o servidor, acesse a rota de desenvolvimento:
 
-```
+```text
 http://localhost:3002/api/dev/set-plan?tier=normal
 http://localhost:3002/api/dev/set-plan?tier=premium
 http://localhost:3002/api/dev/set-plan?tier=superPremium
@@ -122,7 +122,7 @@ A rota seta o cookie `_dev_plan`, redireciona para a home e o rodapé exibe o pl
 
 Para limpar o override (volta ao perfil do cliente):
 
-```
+```text
 http://localhost:3002/api/dev/set-plan
 ```
 
@@ -249,9 +249,9 @@ elegancia-barbearia-site/
 
 ## Política de versão Node.js
 
-- padrão recomendado: Node.js LTS 20.x
-- compatível: 18.x
-- evitar: 22.x (para reduzir incompatibilidades)
+- padrão recomendado para Cloudflare Pages/Wrangler: Node.js LTS 22.x
+- compatível com o projeto: 18.x ou superior
+- evitar usar 20.x no deploy do Cloudflare porque o Wrangler atual exige Node 22+
 
 Arquivos de apoio:
 
@@ -362,11 +362,15 @@ Configuração pronta neste projeto (site estático):
 - adicionar SEO local com schema.org (LocalBusiness)
 - publicar primeira versão em ambiente de produção
 
+<!-- markdownlint-disable MD012 -->
+
 ## VS Code: extensões recomendadas para Cloudflare
 
 - `cloudflare.cloudflare-workers-bindings-extension`
 - `codiium.wrangler`
 
 As recomendações estão no workspace em `.vscode/extensions.json`.
+
+
 
 

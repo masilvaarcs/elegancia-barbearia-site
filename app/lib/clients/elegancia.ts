@@ -16,7 +16,7 @@ export const eleganciaProfileInput: ClientProfileInput = {
       "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3457.3830204130345!2d-51.03072148914596!3d-29.939659626320367!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x951974a37c2d4f71%3A0xe961a0c3f62e9b94!2sR.%20Pereira%20Passos%2C%2031%20-%20COHAB%20B%2C%20Gravata%C3%AD%20-%20RS%2C%2094040-230!5e0!3m2!1spt-BR!2sbr!4v1779665256839!5m2!1spt-BR!2sbr",
   },
   metadata: {
-    siteUrl: "https://elegancia-barbearia-site.vercel.app",
+    siteUrl: "https://6e6f5778.elegancia-barbearia-site.pages.dev",
   },
   // Plano comercial deste cliente.
   // Troque entre: "basic" | "normal" | "premium" | "superPremium".
